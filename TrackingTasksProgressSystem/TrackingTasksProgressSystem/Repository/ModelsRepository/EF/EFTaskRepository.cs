@@ -17,10 +17,7 @@ namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
         {
             if (task is null) return 0;
 
-            // При добавлении задачи могут быть только новые прикрепления
-            dbContext.Set<Attachment>().AddRange(task.ProblemAttachments);
-            dbContext.Set<Attachment>().AddRange(task.ResponseAttachments);
-
+            AddAttachmentsCollection(task);
             dbContext.Add(task);
 
             return await SaveAsync();
@@ -35,9 +32,7 @@ namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
                 .Include(task => task.PerformingBy)
                 .Include(task => task.Priority)
                 .Include(task => task.ProblemAttachments)
-                .ThenInclude(attachment => attachment.TasksProblemAttachments)
-                .Include(task => task.ResponseAttachments)
-                .ThenInclude(attachment => attachment.TasksResponseAttachments);
+                .Include(task => task.ResponseAttachments);
         }
 
 
@@ -45,14 +40,35 @@ namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
         {
             if (task is null) return 0;
 
-            dbContext.Set<Attachment>().UpdateRange(task.ProblemAttachments);
-            dbContext.Set<Attachment>().UpdateRange(task.ResponseAttachments);
-
+            UpdateAttachmentsCollection(id, task);
             dbContext.Set<Task>().Attach(task);
             dbContext.Entry(task).Property(item => item.Id).CurrentValue = id;
             dbContext.Set<Task>().Update(task);
 
             return await SaveAsync();
+        }
+
+
+        private void AddAttachmentsCollection(Task task)
+        {
+            // При добавлении задачи могут быть только новые прикрепления
+            dbContext.Set<Attachment>().AddRange(task.ProblemAttachments);
+            dbContext.Set<ResponseAttachment>().AddRange(task.ResponseAttachments);
+        }
+
+
+        private void UpdateAttachmentsCollection(int id, Task task)
+        {
+            // Удаление ранее добавленных прикреплений у задачи с номером id
+            Task existingTask = GetById(id);
+            dbContext.Set<Attachment>().RemoveRange(existingTask.ProblemAttachments);
+            dbContext.Set<ResponseAttachment>().RemoveRange(existingTask.ResponseAttachments);
+
+            // Добавление новых прикреплений к задаче с номером id
+            dbContext.Set<Attachment>().UpdateRange(task.ProblemAttachments);
+            dbContext.Set<ResponseAttachment>().UpdateRange(task.ResponseAttachments);
+
+            dbContext.Entry(existingTask).State = EntityState.Detached;
         }
     }
 }

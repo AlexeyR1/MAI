@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using TrackingTasksProgressSystem.Models;
+﻿using Microsoft.EntityFrameworkCore;
 using TrackingTasksProgressSystem.EFCore.EntityConfigurations;
+using TrackingTasksProgressSystem.Models;
 
 namespace TrackingTasksProgressSystem.EFCore
 {
@@ -24,6 +20,7 @@ namespace TrackingTasksProgressSystem.EFCore
         public DbSet<Status> Statuses { get; private set; }
         public DbSet<Priority> Priorities { get; private set; }
         public DbSet<Attachment> Attachments { get; private set; }
+        public DbSet<ResponseAttachment> ResponseAttachments { get; private set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +33,7 @@ namespace TrackingTasksProgressSystem.EFCore
             modelBuilder.ApplyConfiguration(new StatusConfiguration());
             modelBuilder.ApplyConfiguration(new PriorityConfiguration());
             modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
+            modelBuilder.ApplyConfiguration(new ResponseAttachmentConfiguration());
         }
     }
 }

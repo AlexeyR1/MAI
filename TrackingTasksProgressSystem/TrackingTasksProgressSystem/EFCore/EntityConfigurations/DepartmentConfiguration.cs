@@ -21,6 +21,18 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
                 .HasMaxLength(100)
                 .IsUnicode(true)
                 .IsRequired(true);
+
+            FillTableWithData(builder);
+        }
+
+
+        private static void FillTableWithData(EntityTypeBuilder<Department> builder)
+        {
+            builder.HasData(new Department(1, "Научно-исследовательский отдел"),
+                            new Department(2, "QA"),
+                            new Department(3, "Менеджмент"),
+                            new Department(4, "Разработка"),
+                            new Department(5, "Служба поддержки"));
         }
     }
 }

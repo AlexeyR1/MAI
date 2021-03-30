@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TrackingTasksProgressSystem.Models.Abstract;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using TrackingTasksProgressSystem.Models.Abstract;
 
 namespace TrackingTasksProgressSystem.Models
 {
@@ -22,6 +19,19 @@ namespace TrackingTasksProgressSystem.Models
             Name = name;
             DepartmentId = department.Id;
             Department = department;
+        }
+
+
+        /// <summary>
+        /// Используется только для заполнения таблицы начальными данными
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="department"></param>
+        public Position(int id, string name, int departmentId) : this(name)
+        {
+            Id = id;
+            DepartmentId = departmentId;
         }
 
 

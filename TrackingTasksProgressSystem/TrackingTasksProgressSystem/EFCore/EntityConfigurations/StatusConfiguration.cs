@@ -21,6 +21,16 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
                 .HasMaxLength(30)
                 .IsUnicode(true)
                 .IsRequired(true);
+
+            FillTableWithData(builder);
+        }
+
+
+        private static void FillTableWithData(EntityTypeBuilder<Status> builder)
+        {
+            builder.HasData(new Status(1, "К выполнению"),
+                            new Status(2, "В работе"),
+                            new Status(3, "Готово"));
         }
     }
 }

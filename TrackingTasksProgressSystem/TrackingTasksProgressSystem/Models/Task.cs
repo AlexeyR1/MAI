@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TrackingTasksProgressSystem.Models.Intermediate;
 using TrackingTasksProgressSystem.Models.Abstract;
-using System.Text.Json.Serialization;
 
 namespace TrackingTasksProgressSystem.Models
 {
@@ -25,14 +20,7 @@ namespace TrackingTasksProgressSystem.Models
         public string ProblemAnnotation { get; private set; }
         public string ResponseAnnotation { get; private set; }
         public List<Attachment> ProblemAttachments { get; private set; }
-        public List<Attachment> ResponseAttachments { get; private set; }
-
-        #region Поля связи с промежуточной таблицей
-        [JsonIgnore]
-        public List<TasksProblemAttachments> TasksProblemAttachments { get; private set; }
-        [JsonIgnore]
-        public List<TasksResponseAttachments> TasksResponseAttachments { get; private set; }
-        #endregion
+        public List<ResponseAttachment> ResponseAttachments { get; private set; }
 
 
         public Task(string summary,
@@ -44,7 +32,7 @@ namespace TrackingTasksProgressSystem.Models
                     string problemAnnotation,
                     string responseAnnotation,
                     List<Attachment> problemAttachments,
-                    List<Attachment> responseAttachments) : this(summary, createdAt, problemAnnotation, responseAnnotation)
+                    List<ResponseAttachment> responseAttachments) : this(summary, createdAt, problemAnnotation, responseAnnotation)
         {
             StatusId = status.Id;
             Status = status;

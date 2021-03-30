@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrackingTasksProgressSystem.Models;
+using TrackingTasksProgressSystem.Repository.ModelsRepository.Abstract;
+using TrackingTasksProgressSystem.Repository.ModelsRepository.EF;
 
 namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
 {
@@ -29,6 +31,19 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
 
             builder.Property(position => position.DepartmentId)
                 .IsRequired(true);
+
+            FillTableWithData(builder);
+        }
+
+
+        private static void FillTableWithData(EntityTypeBuilder<Position> builder)
+        {
+            // Магические цифры
+            builder.HasData(new Position(1, "Технический специалист", 1),
+                            new Position(2, "Инженер по качеству", 2),
+                            new Position(3, "Младший разработчик", 4),
+                            new Position(4, "Старший разработчик", 4),
+                            new Position(5, "Руководитель проекта", 3));
         }
     }
 }

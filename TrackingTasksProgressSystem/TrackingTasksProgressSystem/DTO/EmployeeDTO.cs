@@ -15,7 +15,7 @@ namespace TrackingTasksProgressSystem.DTO
         public string LastName { get; set; }
         public PositionDTO Position { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; } // Можно ли передавать на сервер Dto, содержащую пароль? (С сервера можно (при создании сотрудника))
+        public string Password { get; set; } // Можно ли передавать c сервера Dto, содержащую пароль? (На сервер можно (при создании сотрудника))
 
 
         //public Employee FromDto()

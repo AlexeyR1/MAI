@@ -17,7 +17,7 @@ namespace TrackingTasksProgressSystem.Models
         public string Email { get; private set; }
         public string Password { get; private set; }
         [JsonIgnore]
-        public List<Models.Task> AuthorBy { get; private set; }
+        public List<Models.Task> CreatedTasks { get; private set; }
         [JsonIgnore]
         public List<Models.Task> PerformingTasks { get; private set; }
 

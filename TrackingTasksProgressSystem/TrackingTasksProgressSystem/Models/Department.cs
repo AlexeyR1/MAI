@@ -19,5 +19,16 @@ namespace TrackingTasksProgressSystem.Models
         {
             Name = name;
         }
+
+
+        /// <summary>
+        /// Используется только для заполнения таблицы начальными данными
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        public Department(int id, string name) : this(name)
+        {
+            Id = id;
+        }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TrackingTasksProgressSystem.Repository.Abstract;
-using TrackingTasksProgressSystem.Models.Abstract;
+﻿using System.Threading.Tasks;
 using TrackingTasksProgressSystem.EFCore;
+using TrackingTasksProgressSystem.Models.Abstract;
+using TrackingTasksProgressSystem.Repository.Abstract;
 
 namespace TrackingTasksProgressSystem.Repository.EF
 {

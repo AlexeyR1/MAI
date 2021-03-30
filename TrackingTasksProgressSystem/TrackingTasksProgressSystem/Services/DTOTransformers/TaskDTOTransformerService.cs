@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TrackingTasksProgressSystem.Models;
 using TrackingTasksProgressSystem.DTO;
 using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
 using TrackingTasksProgressSystem.Repository.Abstract;
 using TrackingTasksProgressSystem.Repository.EF;
-using TrackingTasksProgressSystem.Repository.ModelsRepository.EF;
 using TrackingTasksProgressSystem.EFCore;
 using TrackingTasksProgressSystem.DTO.ReadOnly;
+using TrackingTasksProgressSystem.Models.Abstract;
+using TrackingTasksProgressSystem.Repository.ModelsRepository.EF;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
@@ -16,8 +18,10 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         private readonly IRepositoryBase<Status> statusRepository;
         private readonly IRepositoryBase<Employee> employeeRepository;
         private readonly IRepositoryBase<Priority> priorityRepository;
-        private readonly IRepositoryBase<Attachment> attachmentRepository;
-        private readonly IDtoTranformerService<Attachment, AttachmentDTO> attachmentDtoTransformer;
+        private readonly IRepositoryBase<BaseAttachment> attachmentRepository;
+        private readonly IRepositoryBase<BaseAttachment> responseAttachmentRepository;
+        private readonly IDtoTranformerService<BaseAttachment, AttachmentDTO> attachmentDtoTransformer;
+        private readonly IDtoTranformerService<BaseAttachment, AttachmentDTO> responseAttachmentDtoTransformer;
         private readonly IReadOnlyDtoTranformerService<Status, StatusDTO> statusDtoTransformer;
         private readonly IReadOnlyDtoTranformerService<Employee, ShortEmployeeDTO> employeeDtoTransformer;
         private readonly IReadOnlyDtoTranformerService<Priority, PriorityDTO> priorityDtoTransformer;
@@ -28,8 +32,10 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
             statusRepository = new EFRepositoryBase<Status>(dbContext);
             employeeRepository = new EFRepositoryBase<Employee>(dbContext);
             priorityRepository = new EFRepositoryBase<Priority>(dbContext);
-            attachmentRepository = new EFRepositoryBase<Attachment>(dbContext);
+            attachmentRepository = new EFProblemAttachmentRepository(dbContext);
+            responseAttachmentRepository = new EFResponseAttachmentRepository(dbContext);
             attachmentDtoTransformer = new AttachmentDTOTransformerService();
+            responseAttachmentDtoTransformer = new ResponseAttachmentDTOTransformerService();
             statusDtoTransformer = new StatusDTOTransformerService();
             employeeDtoTransformer = new ShortEmployeeDTOTransformerService();
             priorityDtoTransformer = new PriorityDTOTransformerService();
@@ -38,8 +44,17 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
 
         Models.Task IDtoTranformerService<Models.Task, TaskDTO>.FromDto(TaskDTO dto)
         {
-            List<Attachment> problemAttachments = TransformAttachmentsFromDto(dto.ProblemAttachments);
-            List<Attachment> responseAttachments = TransformAttachmentsFromDto(dto.ResponseAttachments);
+            List<Attachment> problemAttachments = new List<Attachment>();
+            TransformAttachmentsFromDto(dto.ProblemAttachments,
+                                        problemAttachments,
+                                        attachmentDtoTransformer,
+                                        attachmentRepository);
+
+            List<ResponseAttachment> responseAttachments = new List<ResponseAttachment>();
+            TransformAttachmentsFromDto(dto.ResponseAttachments,
+                                        responseAttachments,
+                                        responseAttachmentDtoTransformer,
+                                        responseAttachmentRepository);
 
             // Новые статус, автор, приоритет и т.д. не могут прийти, т.к. при создании задачи они выбираются из существующего списка.
             // Новым может быть только прикрепление к задаче и то ТОЛЬКО в случае, если у него id == default, то есть при создании задачи.
@@ -78,24 +93,24 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         }
 
 
-        private List<Attachment> TransformAttachmentsFromDto(List<AttachmentDTO> sourceList)
+        // Очень сомнительное обобщение
+        private void TransformAttachmentsFromDto(List<AttachmentDTO> sourceList,
+                                                 IList resultList,
+                                                 IDtoTranformerService<BaseAttachment, AttachmentDTO> dtoTranformer,
+                                                 IRepositoryBase<BaseAttachment> attachmentRepository)
         {
-            List<Attachment> resultList = new List<Attachment>();
-
             if (sourceList is not null)
             {
-                sourceList.ForEach(attachmentDto =>
+                foreach (var attachmentDto in sourceList)
                 {
                     // При редактировании задачи уже существующие прикрепления должны доставаться из БД
                     if (attachmentDto.Id != default)
                     {
                         resultList.Add(attachmentRepository.GetById(attachmentDto.Id));
                     }
-                    else resultList.Add(attachmentDtoTransformer.FromDto(attachmentDto));
-                });
+                    else resultList.Add(dtoTranformer.FromDto(attachmentDto));
+                }
             }
-
-            return resultList;
         }
 
 
@@ -103,6 +118,15 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         {
             List<AttachmentDTO> resultList = new List<AttachmentDTO>();
             sourceList.ForEach(attachment => resultList.Add(attachmentDtoTransformer.ToDto(attachment)));
+
+            return resultList;
+        }
+
+            
+        private List<AttachmentDTO> TransformAttachmentsToDto(List<ResponseAttachment> sourceList)
+        {
+            List<AttachmentDTO> resultList = new List<AttachmentDTO>();
+            sourceList.ForEach(attachment => resultList.Add(responseAttachmentDtoTransformer.ToDto(attachment)));
 
             return resultList;
         }

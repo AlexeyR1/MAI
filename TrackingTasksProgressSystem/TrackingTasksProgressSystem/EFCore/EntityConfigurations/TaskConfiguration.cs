@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TrackingTasksProgressSystem.Models;
-using TrackingTasksProgressSystem.Models.Intermediate;
 
 namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
 {
@@ -24,7 +18,7 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(task => task.Author)
-                .WithMany(employee => employee.AuthorBy)
+                .WithMany(employee => employee.CreatedTasks)
                 .HasForeignKey(task => task.AuthorId)
                 .OnDelete(DeleteBehavior.NoAction);
 
@@ -39,42 +33,14 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(task => task.ProblemAttachments)
-               .WithMany(attachment => attachment.ToProblems)
-               .UsingEntity<TasksProblemAttachments>(
-                   join => join.HasOne(tasksProblemAttachments => tasksProblemAttachments.Attachment)
-                               .WithMany(task => task.TasksProblemAttachments)
-                               .HasForeignKey(tasksResponseAttachments => tasksResponseAttachments.AttachmentId)
-                               .IsRequired(false)
-                               .OnDelete(DeleteBehavior.Cascade),
-                   join => join.HasOne(tasksProblemAttachments => tasksProblemAttachments.Task)
-                               .WithMany(attachment => attachment.TasksProblemAttachments)
-                               .HasForeignKey(tasksResponseAttachments => tasksResponseAttachments.TaskId)
-                               .IsRequired(true)
-                               .OnDelete(DeleteBehavior.Cascade),
-                   join =>
-                   {
-                       join.ToTable("TasksProblem_Attachments");
-                       join.HasKey(tasksResponseAttachments => tasksResponseAttachments.Id);
-                   });
+               .WithOne(attachment => attachment.Task)
+               .HasForeignKey(attachment => attachment.TaskId)
+               .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(task => task.ResponseAttachments)
-                .WithMany(attachment => attachment.ToResponses)
-                .UsingEntity<TasksResponseAttachments>(
-                    join => join.HasOne(tasksResponseAttachments => tasksResponseAttachments.Attachment)
-                                .WithMany(task => task.TasksResponseAttachments)
-                                .HasForeignKey(tasksResponseAttachments => tasksResponseAttachments.AttachmentId)
-                                .IsRequired(false)
-                                .OnDelete(DeleteBehavior.Cascade),
-                    join => join.HasOne(tasksResponseAttachments => tasksResponseAttachments.Task)
-                                .WithMany(attachment => attachment.TasksResponseAttachments)
-                                .HasForeignKey(tasksResponseAttachments => tasksResponseAttachments.TaskId)
-                                .IsRequired(true)
-                                .OnDelete(DeleteBehavior.Cascade),
-                    join =>
-                    {
-                        join.ToTable("TasksResponse_Attachments");
-                        join.HasKey(tasksResponseAttachments => tasksResponseAttachments.Id);
-                    });
+                .WithOne(responseAttachment => responseAttachment.Task)
+                .HasForeignKey(responseAttachment => responseAttachment.TaskId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(task => task.Summary)
                 .HasMaxLength(150)
