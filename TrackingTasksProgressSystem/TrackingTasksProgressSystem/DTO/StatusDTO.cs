@@ -11,5 +11,21 @@ namespace TrackingTasksProgressSystem.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+
+        //public Status FromDto()
+        //{
+        //    return new Status(Id, Name);
+        //}
+
+
+        //public StatusDTO ToDto(Status status)
+        //{
+        //    return new StatusDTO
+        //    {
+        //        Id = status.Id,
+        //        Name = status.Name,
+        //    };
+        //}
     }
 }
