@@ -12,21 +12,5 @@ namespace TrackingTasksProgressSystem.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-
-        //public Department FromDto()
-        //{
-        //    return new Department(Name);
-        //}
-
-
-        //public DepartmentDTO ToDto(Department department)
-        //{
-        //    return new DepartmentDTO
-        //    {
-        //        Id = department.Id,
-        //        Name = department.Name
-        //    };
-        //}
     }
 }
