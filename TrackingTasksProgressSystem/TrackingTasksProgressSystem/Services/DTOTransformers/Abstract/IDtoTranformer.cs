@@ -7,7 +7,7 @@ using TrackingTasksProgressSystem.DTO.Abstract;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers.Abstract
 {
-    public interface IDtoTranformerService<TEntity, TDto> : IReadOnlyDtoTranformerService<TEntity, TDto>
+    public interface IDtoTranformer<TEntity, TDto> : IReadOnlyDtoTranformer<TEntity, TDto>
         where TEntity : IEntity
         where TDto : IDto
     {

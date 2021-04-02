@@ -11,7 +11,7 @@ namespace TrackingTasksProgressSystem.Controllers.Abstract
         where TEntity : IEntity
         where TDto : IDto
     {
-        public DeleterController(IRepositoryDeleter<TEntity> repository, IDtoTranformerService<TEntity, TDto> dtoTransformer) : base(repository, dtoTransformer) { }
+        public DeleterController(IRepositoryDeleter<TEntity> repository, IDtoTranformer<TEntity, TDto> dtoTransformer) : base(repository, dtoTransformer) { }
 
 
         [HttpDelete("{id}")]

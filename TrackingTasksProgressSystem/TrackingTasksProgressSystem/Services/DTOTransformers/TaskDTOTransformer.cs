@@ -10,37 +10,37 @@ using TrackingTasksProgressSystem.DTO.ReadOnly;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class TaskDTOTransformerService : IDtoTranformerService<Models.Task, TaskDTO>
+    public class TaskDTOTransformer : IDtoTranformer<Models.Task, TaskDTO>
     {
         private readonly IRepositoryBase<Status> statusRepository;
         private readonly IRepositoryBase<Employee> employeeRepository;
         private readonly IRepositoryBase<Priority> priorityRepository;
         private readonly AttachmentDTOTransformer<ProblemAttachment> problemAttachmentDtoTransformer;
         private readonly AttachmentDTOTransformer<ResponseAttachment> responseAttachmentDtoTransformer;
-        private readonly IReadOnlyDtoTranformerService<Status, StatusDTO> statusDtoTransformer;
-        private readonly IReadOnlyDtoTranformerService<Employee, ShortEmployeeDTO> employeeDtoTransformer;
-        private readonly IReadOnlyDtoTranformerService<Priority, PriorityDTO> priorityDtoTransformer;
+        private readonly IReadOnlyDtoTranformer<Status, StatusDTO> statusDtoTransformer;
+        private readonly IReadOnlyDtoTranformer<Employee, ShortEmployeeDTO> employeeDtoTransformer;
+        private readonly IReadOnlyDtoTranformer<Priority, PriorityDTO> priorityDtoTransformer;
 
 
-        public TaskDTOTransformerService(TrackingTasksProgressDbContext dbContext)
+        public TaskDTOTransformer(TrackingTasksProgressDbContext dbContext)
         {
             statusRepository = new EFRepositoryBase<Status>(dbContext);
             employeeRepository = new EFRepositoryBase<Employee>(dbContext);
             priorityRepository = new EFRepositoryBase<Priority>(dbContext);
 
             problemAttachmentDtoTransformer = new (new EFRepositoryBase<ProblemAttachment>(dbContext),
-                                                   new ProblemAttachmentDTOTransformerService());
+                                                   new ProblemAttachmentDTOTransformer());
 
             responseAttachmentDtoTransformer = new (new EFRepositoryBase<ResponseAttachment>(dbContext),
-                                                    new ResponseAttachmentDTOTransformerService());
+                                                    new ResponseAttachmentDTOTransformer());
 
-            statusDtoTransformer = new StatusDTOTransformerService();
-            employeeDtoTransformer = new ShortEmployeeDTOTransformerService();
-            priorityDtoTransformer = new PriorityDTOTransformerService();
+            statusDtoTransformer = new StatusDTOTransformer();
+            employeeDtoTransformer = new ShortEmployeeDTOTransformer();
+            priorityDtoTransformer = new PriorityDTOTransformer();
         }
 
 
-        Models.Task IDtoTranformerService<Models.Task, TaskDTO>.FromDto(TaskDTO dto)
+        Models.Task IDtoTranformer<Models.Task, TaskDTO>.FromDto(TaskDTO dto)
         {
             List<ProblemAttachment> problemAttachments = problemAttachmentDtoTransformer.FromDto(dto.ProblemAttachments);
             List<ResponseAttachment> responseAttachments = responseAttachmentDtoTransformer.FromDto(dto.ResponseAttachments);
@@ -60,7 +60,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         }
 
 
-        TaskDTO IReadOnlyDtoTranformerService<Models.Task, TaskDTO>.ToDto(Models.Task task)
+        TaskDTO IReadOnlyDtoTranformer<Models.Task, TaskDTO>.ToDto(Models.Task task)
         {
             List<AttachmentDTO> problemAttachments = problemAttachmentDtoTransformer.ToDto(task.ProblemAttachments);
             List<AttachmentDTO> responseAttachments = responseAttachmentDtoTransformer.ToDto(task.ResponseAttachments);

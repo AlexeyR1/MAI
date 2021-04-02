@@ -8,14 +8,14 @@ using TrackingTasksProgressSystem.DTO;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class DepartmentDTOTransformerService : IReadOnlyDtoTranformerService<Department, DepartmentDTO>
+    public class PriorityDTOTransformer : IReadOnlyDtoTranformer<Priority, PriorityDTO>
     {
-        DepartmentDTO IReadOnlyDtoTranformerService<Department, DepartmentDTO>.ToDto(Department department)
+        PriorityDTO IReadOnlyDtoTranformer<Priority, PriorityDTO>.ToDto(Priority priority)
         {
-            return new DepartmentDTO
+            return new PriorityDTO
             {
-                Id = department.Id,
-                Name = department.Name
+                Id = priority.Id,
+                Name = priority.Name
             };
         }
     }

@@ -4,15 +4,15 @@ using TrackingTasksProgressSystem.DTO;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class ResponseAttachmentDTOTransformerService : IDtoTranformerService<ResponseAttachment, AttachmentDTO>
+    public class ResponseAttachmentDTOTransformer : IDtoTranformer<ResponseAttachment, AttachmentDTO>
     {
-        ResponseAttachment IDtoTranformerService<ResponseAttachment, AttachmentDTO>.FromDto(AttachmentDTO dto)
+        ResponseAttachment IDtoTranformer<ResponseAttachment, AttachmentDTO>.FromDto(AttachmentDTO dto)
         {
             return new ResponseAttachment(dto.Name, dto.Data);
         }
 
 
-        AttachmentDTO IReadOnlyDtoTranformerService<ResponseAttachment, AttachmentDTO>.ToDto(ResponseAttachment attachment)
+        AttachmentDTO IReadOnlyDtoTranformer<ResponseAttachment, AttachmentDTO>.ToDto(ResponseAttachment attachment)
         {
             return new AttachmentDTO
             {

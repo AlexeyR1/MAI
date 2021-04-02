@@ -8,9 +8,9 @@ using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class ShortEmployeeDTOTransformerService : IReadOnlyDtoTranformerService<Employee, ShortEmployeeDTO>
+    public class ShortEmployeeDTOTransformer : IReadOnlyDtoTranformer<Employee, ShortEmployeeDTO>
     {
-        ShortEmployeeDTO IReadOnlyDtoTranformerService<Employee, ShortEmployeeDTO>.ToDto(Employee employee)
+        ShortEmployeeDTO IReadOnlyDtoTranformer<Employee, ShortEmployeeDTO>.ToDto(Employee employee)
         {
             return new ShortEmployeeDTO
             {

@@ -9,15 +9,15 @@ using TrackingTasksProgressSystem.Models.Abstract;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class ProblemAttachmentDTOTransformerService : IDtoTranformerService<ProblemAttachment, AttachmentDTO>
+    public class ProblemAttachmentDTOTransformer : IDtoTranformer<ProblemAttachment, AttachmentDTO>
     {
-        ProblemAttachment IDtoTranformerService<ProblemAttachment, AttachmentDTO>.FromDto(AttachmentDTO dto)
+        ProblemAttachment IDtoTranformer<ProblemAttachment, AttachmentDTO>.FromDto(AttachmentDTO dto)
         {
             return new ProblemAttachment(dto.Name, dto.Data);
         }
 
 
-        AttachmentDTO IReadOnlyDtoTranformerService<ProblemAttachment, AttachmentDTO>.ToDto(ProblemAttachment attachment)
+        AttachmentDTO IReadOnlyDtoTranformer<ProblemAttachment, AttachmentDTO>.ToDto(ProblemAttachment attachment)
         {
             return new AttachmentDTO
             {

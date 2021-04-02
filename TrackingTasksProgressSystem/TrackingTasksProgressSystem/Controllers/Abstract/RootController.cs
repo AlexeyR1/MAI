@@ -15,10 +15,10 @@ namespace TrackingTasksProgressSystem.Controllers.Abstract
         where TRepository : IRepositoryBase<TEntity>
     {
         private protected TRepository repository;
-        private protected IDtoTranformerService<TEntity, TDto> dtoTransformer;
+        private protected IDtoTranformer<TEntity, TDto> dtoTransformer;
 
 
-        public RootController(TRepository repository, IDtoTranformerService<TEntity, TDto> dtoTransformer)
+        public RootController(TRepository repository, IDtoTranformer<TEntity, TDto> dtoTransformer)
         {
             this.repository = repository;
             this.dtoTransformer = dtoTransformer;

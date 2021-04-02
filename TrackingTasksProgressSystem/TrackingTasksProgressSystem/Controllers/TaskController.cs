@@ -12,7 +12,7 @@ namespace TrackingTasksProgressSystem.Controllers
     public class TaskController : DeleterController<Task, TaskDTO>
     {
         public TaskController(TrackingTasksProgressDbContext dbContext) : base(new EFTaskRepository(dbContext),
-                                                                               new TaskDTOTransformerService(dbContext))
+                                                                               new TaskDTOTransformer(dbContext))
         { }
     }
 }

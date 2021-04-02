@@ -12,7 +12,7 @@ namespace TrackingTasksProgressSystem.Controllers
     public class EmployeeController : BaseController<Employee, EmployeeDTO>
     {
         public EmployeeController(TrackingTasksProgressDbContext dbContext) : base(new EFEmployeeRepository(dbContext),
-                                                                                   new EmployeeDTOTransformerService(dbContext))
+                                                                                   new EmployeeDTOTransformer(dbContext))
         { }
     }
 }

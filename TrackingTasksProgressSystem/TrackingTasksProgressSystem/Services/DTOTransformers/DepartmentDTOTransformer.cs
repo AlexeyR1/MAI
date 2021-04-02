@@ -8,14 +8,14 @@ using TrackingTasksProgressSystem.DTO;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class StatusDTOTransformerService : IReadOnlyDtoTranformerService<Status, StatusDTO>
+    public class DepartmentDTOTransformer : IReadOnlyDtoTranformer<Department, DepartmentDTO>
     {
-        StatusDTO IReadOnlyDtoTranformerService<Status, StatusDTO>.ToDto(Status status)
+        DepartmentDTO IReadOnlyDtoTranformer<Department, DepartmentDTO>.ToDto(Department department)
         {
-            return new StatusDTO
+            return new DepartmentDTO
             {
-                Id = status.Id,
-                Name = status.Name
+                Id = department.Id,
+                Name = department.Name
             };
         }
     }

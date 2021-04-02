@@ -9,18 +9,18 @@ using TrackingTasksProgressSystem.DTO.ReadOnly;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class ShortTaskDtoTransformerService : IReadOnlyDtoTranformerService<Models.Task, ShortTaskDTO>
+    public class ShortTaskDtoTransformer : IReadOnlyDtoTranformer<Models.Task, ShortTaskDTO>
     {
-        private readonly IReadOnlyDtoTranformerService<Status, StatusDTO> statusDtoTransformer;
+        private readonly IReadOnlyDtoTranformer<Status, StatusDTO> statusDtoTransformer;
 
 
-        public ShortTaskDtoTransformerService()
+        public ShortTaskDtoTransformer()
         {
-            statusDtoTransformer = new StatusDTOTransformerService();
+            statusDtoTransformer = new StatusDTOTransformer();
         }
 
 
-        ShortTaskDTO IReadOnlyDtoTranformerService<Models.Task, ShortTaskDTO>.ToDto(Models.Task task)
+        ShortTaskDTO IReadOnlyDtoTranformer<Models.Task, ShortTaskDTO>.ToDto(Models.Task task)
         {
             return new ShortTaskDTO
             {

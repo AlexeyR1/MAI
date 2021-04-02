@@ -7,18 +7,18 @@ using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class PositionDTOTransformerService : IReadOnlyDtoTranformerService<Position, PositionDTO>
+    public class PositionDTOTransformer : IReadOnlyDtoTranformer<Position, PositionDTO>
     {
-        private readonly IReadOnlyDtoTranformerService<Department, DepartmentDTO> departmentDTOtransformer;
+        private readonly IReadOnlyDtoTranformer<Department, DepartmentDTO> departmentDTOtransformer;
 
 
-        public PositionDTOTransformerService()
+        public PositionDTOTransformer()
         {
-            departmentDTOtransformer = new DepartmentDTOTransformerService();
+            departmentDTOtransformer = new DepartmentDTOTransformer();
         }
 
 
-        PositionDTO IReadOnlyDtoTranformerService<Position, PositionDTO>.ToDto(Position position)
+        PositionDTO IReadOnlyDtoTranformer<Position, PositionDTO>.ToDto(Position position)
         {
             return new PositionDTO
             {

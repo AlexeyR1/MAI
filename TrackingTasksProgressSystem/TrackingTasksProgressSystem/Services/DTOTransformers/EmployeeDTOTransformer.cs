@@ -11,20 +11,20 @@ using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class EmployeeDTOTransformerService : IDtoTranformerService<Employee, EmployeeDTO>
+    public class EmployeeDTOTransformer : IDtoTranformer<Employee, EmployeeDTO>
     {
         private readonly IRepositoryBase<Position> positionRepository;
-        private readonly IReadOnlyDtoTranformerService<Position, PositionDTO> positionDTOTransformer;
+        private readonly IReadOnlyDtoTranformer<Position, PositionDTO> positionDTOTransformer;
 
 
-        public EmployeeDTOTransformerService(TrackingTasksProgressDbContext dbContext)
+        public EmployeeDTOTransformer(TrackingTasksProgressDbContext dbContext)
         {
             positionRepository = new EFPositionRepository(dbContext);
-            positionDTOTransformer = new PositionDTOTransformerService();
+            positionDTOTransformer = new PositionDTOTransformer();
         }
 
 
-        Employee IDtoTranformerService<Employee, EmployeeDTO>.FromDto(EmployeeDTO dto)
+        Employee IDtoTranformer<Employee, EmployeeDTO>.FromDto(EmployeeDTO dto)
         {
             return new Employee(dto.FirstName,
                                 dto.LastName,
@@ -34,7 +34,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         }
 
 
-        EmployeeDTO IReadOnlyDtoTranformerService<Employee, EmployeeDTO>.ToDto(Employee employee)
+        EmployeeDTO IReadOnlyDtoTranformer<Employee, EmployeeDTO>.ToDto(Employee employee)
         {
             return new EmployeeDTO
             {
