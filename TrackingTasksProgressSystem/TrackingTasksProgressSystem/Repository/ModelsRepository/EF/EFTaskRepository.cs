@@ -52,7 +52,7 @@ namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
         private void AddAttachmentsCollection(Task task)
         {
             // При добавлении задачи могут быть только новые прикрепления
-            dbContext.Set<Attachment>().AddRange(task.ProblemAttachments);
+            dbContext.Set<ProblemAttachment>().AddRange(task.ProblemAttachments);
             dbContext.Set<ResponseAttachment>().AddRange(task.ResponseAttachments);
         }
 
@@ -61,11 +61,11 @@ namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
         {
             // Удаление ранее добавленных прикреплений у задачи с номером id
             Task existingTask = GetById(id);
-            dbContext.Set<Attachment>().RemoveRange(existingTask.ProblemAttachments);
+            dbContext.Set<ProblemAttachment>().RemoveRange(existingTask.ProblemAttachments);
             dbContext.Set<ResponseAttachment>().RemoveRange(existingTask.ResponseAttachments);
 
             // Добавление новых прикреплений к задаче с номером id
-            dbContext.Set<Attachment>().UpdateRange(task.ProblemAttachments);
+            dbContext.Set<ProblemAttachment>().UpdateRange(task.ProblemAttachments);
             dbContext.Set<ResponseAttachment>().UpdateRange(task.ResponseAttachments);
 
             dbContext.Entry(existingTask).State = EntityState.Detached;

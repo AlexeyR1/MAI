@@ -10,17 +10,17 @@ using TrackingTasksProgressSystem.EFCore.EntityConfigurations.Abstract;
 
 namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
 {
-    public class AttachmentConfiguration : BaseAttachmentConfiguration<Attachment>, IEntityTypeConfiguration<Attachment>
+    public class AttachmentConfiguration : BaseAttachmentConfiguration<ProblemAttachment>, IEntityTypeConfiguration<ProblemAttachment>
     {
-        void IEntityTypeConfiguration<Attachment>.Configure(EntityTypeBuilder<Attachment> builder)
+        void IEntityTypeConfiguration<ProblemAttachment>.Configure(EntityTypeBuilder<ProblemAttachment> builder)
         {
             Configure(builder);
         }
 
 
-        private protected override void Configure(EntityTypeBuilder<Attachment> builder)
+        private protected override void Configure(EntityTypeBuilder<ProblemAttachment> builder)
         {
-            builder.ToTable("Attachments");
+            builder.ToTable("ProblemAttachments");
             base.Configure(builder);
         }
     }

@@ -19,7 +19,7 @@ namespace TrackingTasksProgressSystem.Models
         public DateTime CreatedAt { get; private set; }
         public string ProblemAnnotation { get; private set; }
         public string ResponseAnnotation { get; private set; }
-        public List<Attachment> ProblemAttachments { get; private set; }
+        public List<ProblemAttachment> ProblemAttachments { get; private set; }
         public List<ResponseAttachment> ResponseAttachments { get; private set; }
 
 
@@ -31,7 +31,7 @@ namespace TrackingTasksProgressSystem.Models
                     DateTime createdAt,
                     string problemAnnotation,
                     string responseAnnotation,
-                    List<Attachment> problemAttachments,
+                    List<ProblemAttachment> problemAttachments,
                     List<ResponseAttachment> responseAttachments) : this(summary, createdAt, problemAnnotation, responseAnnotation)
         {
             StatusId = status.Id;

@@ -7,8 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace TrackingTasksProgressSystem.Models
 {
-    public class Attachment : BaseAttachment
+    public class ProblemAttachment : BaseAttachment
     {
-        public Attachment(string name, byte[] data, DateTime createdAt) : base(name, data, createdAt) { }
+        public ProblemAttachment(string name, byte[] data, DateTime createdAt) : base(name, data, createdAt) { }
     }
 }

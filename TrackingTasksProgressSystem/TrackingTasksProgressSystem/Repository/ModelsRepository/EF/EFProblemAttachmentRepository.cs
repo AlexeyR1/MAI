@@ -12,7 +12,7 @@ namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
 
         public override IEnumerable<BaseAttachment> GetAll()
         {
-            return dbContext.Attachments.AsEnumerable();
+            return dbContext.ProblemAttachments.AsEnumerable();
         }
     }
 }

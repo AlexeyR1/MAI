@@ -9,11 +9,11 @@ using TrackingTasksProgressSystem.Models.Abstract;
 
 namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
-    public class AttachmentDTOTransformerService : IDtoTranformerService<BaseAttachment, AttachmentDTO>
+    public class ProblemAttachmentDTOTransformerService : IDtoTranformerService<BaseAttachment, AttachmentDTO>
     {
         BaseAttachment IDtoTranformerService<BaseAttachment, AttachmentDTO>.FromDto(AttachmentDTO dto)
         {
-            return new Attachment(dto.Name, dto.Data, DateTime.Now);
+            return new ProblemAttachment(dto.Name, dto.Data, DateTime.Now);
         }
 
 

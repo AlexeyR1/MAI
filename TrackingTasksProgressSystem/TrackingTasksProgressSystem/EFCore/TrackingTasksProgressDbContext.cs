@@ -19,7 +19,7 @@ namespace TrackingTasksProgressSystem.EFCore
         public DbSet<Models.Task> Tasks { get; private set; }
         public DbSet<Status> Statuses { get; private set; }
         public DbSet<Priority> Priorities { get; private set; }
-        public DbSet<Attachment> Attachments { get; private set; }
+        public DbSet<ProblemAttachment> ProblemAttachments { get; private set; }
         public DbSet<ResponseAttachment> ResponseAttachments { get; private set; }
 
 

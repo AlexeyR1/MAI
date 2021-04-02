@@ -18,9 +18,9 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         private readonly IRepositoryBase<Status> statusRepository;
         private readonly IRepositoryBase<Employee> employeeRepository;
         private readonly IRepositoryBase<Priority> priorityRepository;
-        private readonly IRepositoryBase<BaseAttachment> attachmentRepository;
+        private readonly IRepositoryBase<BaseAttachment> problemAttachmentRepository;
         private readonly IRepositoryBase<BaseAttachment> responseAttachmentRepository;
-        private readonly IDtoTranformerService<BaseAttachment, AttachmentDTO> attachmentDtoTransformer;
+        private readonly IDtoTranformerService<BaseAttachment, AttachmentDTO> problemAttachmentDtoTransformer;
         private readonly IDtoTranformerService<BaseAttachment, AttachmentDTO> responseAttachmentDtoTransformer;
         private readonly IReadOnlyDtoTranformerService<Status, StatusDTO> statusDtoTransformer;
         private readonly IReadOnlyDtoTranformerService<Employee, ShortEmployeeDTO> employeeDtoTransformer;
@@ -32,9 +32,9 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
             statusRepository = new EFRepositoryBase<Status>(dbContext);
             employeeRepository = new EFRepositoryBase<Employee>(dbContext);
             priorityRepository = new EFRepositoryBase<Priority>(dbContext);
-            attachmentRepository = new EFProblemAttachmentRepository(dbContext);
+            problemAttachmentRepository = new EFProblemAttachmentRepository(dbContext);
             responseAttachmentRepository = new EFResponseAttachmentRepository(dbContext);
-            attachmentDtoTransformer = new AttachmentDTOTransformerService();
+            problemAttachmentDtoTransformer = new ProblemAttachmentDTOTransformerService();
             responseAttachmentDtoTransformer = new ResponseAttachmentDTOTransformerService();
             statusDtoTransformer = new StatusDTOTransformerService();
             employeeDtoTransformer = new ShortEmployeeDTOTransformerService();
@@ -44,11 +44,11 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
 
         Models.Task IDtoTranformerService<Models.Task, TaskDTO>.FromDto(TaskDTO dto)
         {
-            List<Attachment> problemAttachments = new List<Attachment>();
+            List<ProblemAttachment> problemAttachments = new List<ProblemAttachment>();
             TransformAttachmentsFromDto(dto.ProblemAttachments,
                                         problemAttachments,
-                                        attachmentDtoTransformer,
-                                        attachmentRepository);
+                                        problemAttachmentDtoTransformer,
+                                        problemAttachmentRepository);
 
             List<ResponseAttachment> responseAttachments = new List<ResponseAttachment>();
             TransformAttachmentsFromDto(dto.ResponseAttachments,
@@ -114,10 +114,10 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
         }
 
 
-        private List<AttachmentDTO> TransformAttachmentsToDto(List<Attachment> sourceList)
+        private List<AttachmentDTO> TransformAttachmentsToDto(List<ProblemAttachment> sourceList)
         {
             List<AttachmentDTO> resultList = new List<AttachmentDTO>();
-            sourceList.ForEach(attachment => resultList.Add(attachmentDtoTransformer.ToDto(attachment)));
+            sourceList.ForEach(attachment => resultList.Add(problemAttachmentDtoTransformer.ToDto(attachment)));
 
             return resultList;
         }
