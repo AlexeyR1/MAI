@@ -48,12 +48,12 @@ namespace TrackingTasksProgressSystem.Models
 
 
         private Task(string summary,
-                    DateTime createdAt,
-                    string problemAnnotation,
-                    string responseAnnotation)
+                     DateTime updatedAt,
+                     string problemAnnotation,
+                     string responseAnnotation)
         {
             Summary = summary;
-            UpdatedAt = createdAt;
+            UpdatedAt = updatedAt;
             ProblemAnnotation = problemAnnotation;
             ResponseAnnotation = responseAnnotation;
         }
