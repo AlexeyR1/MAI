@@ -13,7 +13,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
     {
         BaseAttachment IDtoTranformerService<BaseAttachment, AttachmentDTO>.FromDto(AttachmentDTO dto)
         {
-            return new ProblemAttachment(dto.Name, dto.Data, DateTime.Now);
+            return new ProblemAttachment(dto.Name, dto.Data);
         }
 
 
@@ -23,8 +23,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
             {
                 Id = attachment.Id,
                 Name = attachment.Name,
-                Data = attachment.Data,
-                CreatedAt = attachment.CreatedAt
+                Data = attachment.Data
             };
         }
     }

@@ -16,7 +16,7 @@ namespace TrackingTasksProgressSystem.Models
         public Employee PerformingBy { get; private set; }
         public int PriorityId { get; private set; }
         public Priority Priority { get; private set; }
-        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
         public string ProblemAnnotation { get; private set; }
         public string ResponseAnnotation { get; private set; }
         public List<ProblemAttachment> ProblemAttachments { get; private set; }
@@ -53,7 +53,7 @@ namespace TrackingTasksProgressSystem.Models
                     string responseAnnotation)
         {
             Summary = summary;
-            CreatedAt = createdAt;
+            UpdatedAt = createdAt;
             ProblemAnnotation = problemAnnotation;
             ResponseAnnotation = responseAnnotation;
         }

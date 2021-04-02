@@ -9,6 +9,6 @@ namespace TrackingTasksProgressSystem.Models
 {
     public class ProblemAttachment : BaseAttachment
     {
-        public ProblemAttachment(string name, byte[] data, DateTime createdAt) : base(name, data, createdAt) { }
+        public ProblemAttachment(string name, byte[] data) : base(name, data) { }
     }
 }

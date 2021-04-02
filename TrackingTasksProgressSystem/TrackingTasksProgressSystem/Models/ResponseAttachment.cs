@@ -9,6 +9,6 @@ namespace TrackingTasksProgressSystem.Models
 {
     public class ResponseAttachment : BaseAttachment
     {
-        public ResponseAttachment(string name, byte[] data, DateTime createdAt) : base(name, data, createdAt) { }
+        public ResponseAttachment(string name, byte[] data) : base(name, data) { }
     }
 }

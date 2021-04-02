@@ -59,7 +59,7 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
             builder.Property(task => task.PriorityId)
                 .IsRequired(true);
 
-            builder.Property(task => task.CreatedAt)
+            builder.Property(task => task.UpdatedAt)
                 .IsRequired(true);
 
             builder.Property(task => task.ProblemAnnotation)

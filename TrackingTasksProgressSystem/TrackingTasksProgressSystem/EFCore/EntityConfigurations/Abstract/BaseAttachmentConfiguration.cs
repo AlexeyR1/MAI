@@ -18,9 +18,6 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations.Abstract
 
             builder.Property(attachment => attachment.Data)
                 .IsRequired(true);
-
-            builder.Property(attachment => attachment.CreatedAt)
-                .IsRequired(true);
         }
     }
 }

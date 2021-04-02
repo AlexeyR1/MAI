@@ -10,16 +10,14 @@ namespace TrackingTasksProgressSystem.Models.Abstract
         public int Id { get; private set; }
         public string Name { get; private set; }
         public byte[] Data { get; private set; }
-        public DateTime CreatedAt { get; private set; }
         public int TaskId { get; private set; }
         public Models.Task Task { get; private set; }
 
 
-        public BaseAttachment(string name, byte[] data, DateTime createdAt)
+        public BaseAttachment(string name, byte[] data)
         {
             Name = name;
             Data = data;
-            CreatedAt = createdAt;
         }
     }
 }
