@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "g8Vx8kXUtFBZWo88fckzlWPVFWkwZ0s8PUj9jgAbhRmyzOiHZDX93ZiGZV+tQfPnhZcmyhoGEImTyEXR/SgeGw==",
+  "dgSpecHash": "jK81sk94+LQGWcmre+kQtMOY8vSiVarMdq1NOufVRqQVxV0tps9bDim3zRS3LYWRrSYV7hAiJ2YTihqWlfG0IA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem.csproj",
+  "projectFilePath": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\backend\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\repin\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\repin\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",

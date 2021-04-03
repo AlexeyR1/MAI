@@ -5706,11 +5706,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem.csproj",
+      "projectUniqueName": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\backend\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem.csproj",
       "projectName": "TrackingTasksProgressSystem",
-      "projectPath": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem.csproj",
+      "projectPath": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\backend\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem.csproj",
       "packagesPath": "C:\\Users\\repin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\TrackingTasksProgressSystem\\obj\\",
+      "outputPath": "C:\\Users\\repin\\source\\repos\\MAI\\TrackingTasksProgressSystem\\backend\\TrackingTasksProgressSystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\repin\\AppData\\Roaming\\NuGet\\NuGet.Config",
