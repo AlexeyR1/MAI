@@ -7,7 +7,7 @@ using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
 
 namespace TrackingTasksProgressSystem.Controllers.Abstract
 {
-    public abstract class DeleterController<TEntity, TDto> : RootController<TEntity, TDto, IRepositoryDeleter<TEntity>>
+    public abstract class DeleterController<TEntity, TDto> : BaseCreatorController<TEntity, TDto, IRepositoryDeleter<TEntity>>
         where TEntity : IEntity
         where TDto : IDto
     {

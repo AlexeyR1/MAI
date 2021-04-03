@@ -13,7 +13,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
     public class EmployeeDTOTransformer : IDtoTranformer<Employee, EmployeeDTO>
     {
-        private readonly IRepositoryBase<Position> positionRepository;
+        private readonly IRepositoryReader<Position> positionRepository;
         private readonly IReadOnlyDtoTranformer<Position, PositionDTO> positionDTOTransformer;
 
 

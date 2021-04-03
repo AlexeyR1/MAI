@@ -3,5 +3,5 @@ using TrackingTasksProgressSystem.Models.Abstract;
 
 namespace TrackingTasksProgressSystem.Repository.ModelsRepository.Abstract
 {
-    public interface IModelRepositoryDeleter<TEntity> : IRepositoryDeleter<TEntity> where TEntity : IEntity { }
+    public interface IModelRepositoryReader<TEntity> : IRepositoryReader<TEntity> where TEntity : IEntity { }
 }

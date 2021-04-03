@@ -12,9 +12,9 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
     public class TaskDTOTransformer : IDtoTranformer<Models.Task, TaskDTO>
     {
-        private readonly IRepositoryBase<Status> statusRepository;
-        private readonly IRepositoryBase<Employee> employeeRepository;
-        private readonly IRepositoryBase<Priority> priorityRepository;
+        private readonly IRepositoryReader<Status> statusRepository;
+        private readonly IRepositoryReader<Employee> employeeRepository;
+        private readonly IRepositoryReader<Priority> priorityRepository;
         private readonly AttachmentDTOTransformer<ProblemAttachment> problemAttachmentDtoTransformer;
         private readonly AttachmentDTOTransformer<ResponseAttachment> responseAttachmentDtoTransformer;
         private readonly IReadOnlyDtoTranformer<Status, StatusDTO> statusDtoTransformer;
@@ -24,14 +24,14 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
 
         public TaskDTOTransformer(TrackingTasksProgressDbContext dbContext)
         {
-            statusRepository = new EFRepositoryBase<Status>(dbContext);
-            employeeRepository = new EFRepositoryBase<Employee>(dbContext);
-            priorityRepository = new EFRepositoryBase<Priority>(dbContext);
+            statusRepository = new EFRepositoryReader<Status>(dbContext);
+            employeeRepository = new EFRepositoryReader<Employee>(dbContext);
+            priorityRepository = new EFRepositoryReader<Priority>(dbContext);
 
-            problemAttachmentDtoTransformer = new (new EFRepositoryBase<ProblemAttachment>(dbContext),
+            problemAttachmentDtoTransformer = new(new EFRepositoryReader<ProblemAttachment>(dbContext),
                                                    new ProblemAttachmentDTOTransformer());
 
-            responseAttachmentDtoTransformer = new (new EFRepositoryBase<ResponseAttachment>(dbContext),
+            responseAttachmentDtoTransformer = new(new EFRepositoryReader<ResponseAttachment>(dbContext),
                                                     new ResponseAttachmentDTOTransformer());
 
             statusDtoTransformer = new StatusDTOTransformer();

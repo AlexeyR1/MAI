@@ -5,11 +5,11 @@ using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
 
 namespace TrackingTasksProgressSystem.Controllers.Abstract
 {
+    public abstract class ReaderController<TEntity, TDto> : RootController<TEntity, TDto, IRepositoryReader<TEntity>, IReadOnlyDtoTranformer<TEntity,TDto>>
 
-    public abstract class BaseController<TEntity, TDto> : RootController<TEntity, TDto, IRepositoryBase<TEntity>>
         where TEntity : IEntity
         where TDto : IDto
     {
-        public BaseController(IRepositoryBase<TEntity> repository, IDtoTranformer<TEntity, TDto> dtoTransformer) : base(repository, dtoTransformer) { }
+        public ReaderController(IRepositoryReader<TEntity> repository, IReadOnlyDtoTranformer<TEntity, TDto> dtoTransformer) : base(repository, dtoTransformer) { }
     }
 }

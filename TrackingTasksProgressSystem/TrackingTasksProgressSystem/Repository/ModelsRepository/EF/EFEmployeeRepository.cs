@@ -6,11 +6,11 @@ using TrackingTasksProgressSystem.Repository.EF;
 
 namespace TrackingTasksProgressSystem.Repository.ModelsRepository.EF
 {
-    public class EFEmployeeRepository : EFRepositoryBase<Employee> //, IEmployeeRepository (доп. функционал)
+    public class EFEmployeeRepository : EFRepositoryCreator<Employee> //, IEmployeeRepository (доп. функционал)
     {
         public EFEmployeeRepository(TrackingTasksProgressDbContext dbContext) : base(dbContext) { }
 
-
+        
         public override IEnumerable<Employee> GetAll()
         {
             return dbContext.Set<Employee>()

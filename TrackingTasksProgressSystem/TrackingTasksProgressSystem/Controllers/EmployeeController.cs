@@ -9,7 +9,7 @@ using TrackingTasksProgressSystem.Services.DTOTransformers;
 namespace TrackingTasksProgressSystem.Controllers
 {
     [Route("api/[controller]")]
-    public class EmployeeController : BaseController<Employee, EmployeeDTO>
+    public class EmployeeController : CreatorController<Employee, EmployeeDTO>
     {
         public EmployeeController(TrackingTasksProgressDbContext dbContext) : base(new EFEmployeeRepository(dbContext),
                                                                                    new EmployeeDTOTransformer(dbContext))

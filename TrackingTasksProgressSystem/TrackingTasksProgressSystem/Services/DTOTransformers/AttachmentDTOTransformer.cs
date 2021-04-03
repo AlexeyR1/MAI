@@ -8,11 +8,11 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
 {
     public class AttachmentDTOTransformer<T> where T : BaseAttachment
     {
-        public readonly IRepositoryBase<T> Repository;
+        public readonly IRepositoryReader<T> Repository;
         public readonly IDtoTranformer<T, AttachmentDTO> Transformer;
 
 
-        public AttachmentDTOTransformer(IRepositoryBase<T> repository, IDtoTranformer<T, AttachmentDTO> dtoTransformer)
+        public AttachmentDTOTransformer(IRepositoryReader<T> repository, IDtoTranformer<T, AttachmentDTO> dtoTransformer)
         {
             Repository = repository;
             Transformer = dtoTransformer;

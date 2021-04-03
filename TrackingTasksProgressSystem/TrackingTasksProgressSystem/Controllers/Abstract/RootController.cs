@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Tasks = System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TrackingTasksProgressSystem.Repository.Abstract;
 using TrackingTasksProgressSystem.Services.DTOTransformers.Abstract;
@@ -9,29 +8,21 @@ using TrackingTasksProgressSystem.DTO.Abstract;
 
 namespace TrackingTasksProgressSystem.Controllers.Abstract
 {
-    public abstract class RootController<TEntity, TDto, TRepository> : ControllerBase
+    public abstract class RootController<TEntity, TDto, TRepository, TDtoTransformer> : ControllerBase
         where TEntity : IEntity
         where TDto : IDto
-        where TRepository : IRepositoryBase<TEntity>
+        where TRepository : IRepositoryReader<TEntity>
+        where TDtoTransformer : IReadOnlyDtoTranformer<TEntity, TDto>
+
     {
         private protected TRepository repository;
-        private protected IDtoTranformer<TEntity, TDto> dtoTransformer;
+        private protected TDtoTransformer dtoTransformer;
 
 
-        public RootController(TRepository repository, IDtoTranformer<TEntity, TDto> dtoTransformer)
+        public RootController(TRepository repository, TDtoTransformer dtoTransformer)
         {
             this.repository = repository;
             this.dtoTransformer = dtoTransformer;
-        }
-
-
-        [HttpPost]
-        public virtual async Tasks.Task<IActionResult> Add([FromBody] TDto dto)
-        {
-            var entity = dtoTransformer.FromDto(dto);
-            if (await repository.AddAsync(entity) == 0) return StatusCode(500);
-
-            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, dtoTransformer.ToDto(entity));
         }
 
 
@@ -58,16 +49,6 @@ namespace TrackingTasksProgressSystem.Controllers.Abstract
             }
 
             return Ok(dtoCollection);
-        }
-
-
-        [HttpPut("{id}")]
-        public virtual async Tasks.Task<IActionResult> Update(int id, [FromBody] TDto dto)
-        {
-            var entity = dtoTransformer.FromDto(dto);
-            if (await repository.UpdateAsync(id, entity) == 0) return StatusCode(500);
-
-            return Ok(dtoTransformer.ToDto(entity));
         }
     }
 }

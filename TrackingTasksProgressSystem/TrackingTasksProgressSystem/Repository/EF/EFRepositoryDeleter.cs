@@ -5,7 +5,7 @@ using TrackingTasksProgressSystem.Repository.Abstract;
 
 namespace TrackingTasksProgressSystem.Repository.EF
 {
-    public class EFRepositoryDeleter<TEntity> : EFRepositoryBase<TEntity>, IRepositoryDeleter<TEntity> where TEntity : class, IEntity
+    public class EFRepositoryDeleter<TEntity> : EFRepositoryCreator<TEntity>, IRepositoryDeleter<TEntity> where TEntity : class, IEntity
     {
         public EFRepositoryDeleter(TrackingTasksProgressDbContext dbContext) : base(dbContext) { }
 

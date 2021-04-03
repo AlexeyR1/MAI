@@ -9,24 +9,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TrackingTasksProgressSystem.Repository.EF
 {
-    public class EFRepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, IEntity
+    public class EFRepositoryReader<TEntity> : IRepositoryReader<TEntity> where TEntity : class, IEntity
     {
         private protected TrackingTasksProgressDbContext dbContext;
 
 
-        public EFRepositoryBase(TrackingTasksProgressDbContext dbContext)
+        public EFRepositoryReader(TrackingTasksProgressDbContext dbContext)
         {
             this.dbContext = dbContext;
-        }
-
-
-        public virtual async Task<int> AddAsync(TEntity entity)
-        {
-            if (entity is null) return 0;
-
-            dbContext.Add(entity);
-
-            return await SaveAsync();
         }
 
 
@@ -39,19 +29,6 @@ namespace TrackingTasksProgressSystem.Repository.EF
         public virtual IEnumerable<TEntity> GetAll()
         {
             return dbContext.Set<TEntity>().AsEnumerable();
-        }
-
-
-        // Не требует передачи id в json
-        public virtual async Task<int> UpdateAsync(int id, TEntity entity)
-        {
-            if (entity is null) return 0;
-
-            dbContext.Set<TEntity>().Attach(entity);
-            dbContext.Entry(entity).Property(item => item.Id).CurrentValue = id;
-            dbContext.Set<TEntity>().Update(entity);
-
-            return await SaveAsync();
         }
 
 
