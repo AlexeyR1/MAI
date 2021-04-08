@@ -1,6 +1,8 @@
+import AddTaskForm from "./forms/AddTaskForm";
+
 function App() {
   return (
-    <div></div>
+    <AddTaskForm />
   );
 }
 

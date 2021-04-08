@@ -51,7 +51,14 @@ namespace TrackingTasksProgressSystem
                 app.UseDeveloperExceptionPage();
             }
 
+            // Компонент маршрутизации
             app.UseRouting();
+
+            // Компонент обработки кросс-доменных запросов
+            app.UseCors(builder =>
+            {
+                builder.SetIsOriginAllowed(source => "http://localhost:3000" == source).AllowAnyMethod().AllowAnyHeader();
+            });
 
             // Установка компонентов контроллера в качестве конечных точек маршрута обработки запроса (внутри контроллера - маршрутизация на основе атрибутов)
             app.UseEndpoints(endpoints => endpoints.MapControllers());
