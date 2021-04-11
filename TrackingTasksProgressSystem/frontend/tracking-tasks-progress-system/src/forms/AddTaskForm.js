@@ -1,15 +1,16 @@
-import React, { useState } from "react"
-import { Formik, Field, Form } from "formik"
+import React, { useState, useCallback } from "react"
+import { Formik, Field, Form, FieldArray } from "formik"
 import { Button, TextField, Select, MenuItem, TextareaAutosize } from "@material-ui/core";
 import { getAll as getStatuses } from "../api/status";
 import { getAll as getPriorities } from "../api/priority";
 import { getAll as getEmployees } from "../api/shortEmployee";
+import { add as addTask } from "../api/task";
+import { useDropzone } from "react-dropzone";
 // import { date } from "yup";
 
 function DropDownMenu({ data, setData, getData, propName }) {
     return (
         <div>
-            <div>{JSON.stringify(data, null, 2)}</div>
             <Field
                 name={propName}
                 type="select"
@@ -26,64 +27,105 @@ function DropDownMenu({ data, setData, getData, propName }) {
     );
 }
 
+function MyDropzone({ attachments, setAttachments }) {
+    const MAX_SIZE = 1073741824; // 1 Гб
+
+    const onDrop = useCallback((acceptedFiles) => {
+        acceptedFiles.forEach(async (file) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onabort = () => console.warn('file reading was aborted')
+            reader.onerror = () => console.error('file reading has failed')
+            reader.onload = () => {
+                setAttachments([...attachments, {
+                    name: file.name,
+                    data: btoa(reader.result)
+                }]);
+            }
+        })
+
+    }, [attachments, setAttachments])
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        maxSize: MAX_SIZE
+    })
+
+    return (
+        <div>
+            <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Поместите сюда Ваши файлы</p>
+            </div>
+            {isNaN(attachments) && (<h4>Прикрепленные файлы:</h4>)}
+            {attachments.map((attachment, index) => (
+                <p key={index}>
+                    <a key={index} href={attachment.data} download>{attachment.name}</a>
+                </p>
+            ))}
+        </div>
+    )
+}
+
 function AddTaskForm() {
-    // Статусы
+    const [initialForm] = useState({
+        summary: "",
+        status: {
+            id: 1, // Значение по умолчанию
+        },
+        author: {
+            id: 0
+        },
+        performingBy: {
+            id: 0
+        },
+        priority: {
+            id: 2 // Значение по умолчанию
+        },
+        problemAnnotation: "",
+        problemAttachments: []
+    });
+
     const [statuses, setStatuses] = useState([{
         id: 1,
         name: "К выполнению"
     }]);
 
-    // Авторы
     const [authors, setAuthors] = useState([{
         id: 0,
         firstName: "",
         lastName: ""
     }]);
 
-    // Исполнители
     const [performers, setPerformers] = useState([{
         id: 0,
         firstName: "",
         lastName: ""
     }]);
 
-    // Приоритеты
     const [priorities, setPriorities] = useState([{
         id: 2,
         name: "Средний"
     }]);
 
+    // Буфер для прикреплений
+    const [attachments, setAttachments] = useState([])
+
     return (
         <div>
+            <h1>Добавить задачу</h1>
             <Formik
-                initialValues={{
-                    summary: '',
-                    status: {
-                        id: 1, // Значение по умолчанию
-                    },
-                    author: {
-                        id: 0
-                    },
-                    performingBy: {
-                        id: 0
-                    },
-                    priority: {
-                        id: 2 // Значение по умолчанию
-                    },
-                    problemAnnotation: '',
-                    problemAttachments: [
-                        // {
-                        //     name: '',
-                        //     data: []
-                        // }
-                    ]
-                }}
-                // Вызывается при отправке формы
-                onSubmit={(data, { setSubmitting, resetForm }) => {
+                initialValues={initialForm}
+                onSubmit={async (data, { setSubmitting, resetForm }) => {
                     setSubmitting(true);
-                    // make async call
-                    console.log("submit: ", data);
+
+                    // Данные заносятся не напрямую в форму, т.к. при большом их объеме
+                    // Форма будет медленно отображать внесенные изменения
+                    data.problemAttachments = attachments;
+
+                    await addTask(data);
                     resetForm({});
+                    setAttachments([]); // Очистка состояния
                     setSubmitting(false);
                 }}>
 
@@ -139,11 +181,14 @@ function AddTaskForm() {
                                 rowsMin={6}
                                 as={TextareaAutosize} />
                         </div>
+                        <FieldArray name="problemAttachments">
+                            <MyDropzone
+                                attachments={attachments}
+                                setAttachments={setAttachments}
+                            />
+                        </FieldArray>
                         <div>
-                            <Field />
-                        </div>
-                        <div>
-                            <Button type="submit" disabled={isSubmitting}>submit</Button>
+                            <Button type="submit" disabled={isSubmitting}>Добавить</Button>
                         </div>
                         <pre>{JSON.stringify(values, null, 2)}</pre>
                     </Form>

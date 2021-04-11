@@ -11,4 +11,4 @@ export const getById = (id) => instance.get(`${id}`).then(result => result.data)
 
 export const add = (item) => instance.post("", item).then(result => result.data);
 
-export const update = (item) => instance.put(`${id}`, item).then(result => result.data);
+export const update = (id, item) => instance.put(`${id}`, item).then(result => result.data);
