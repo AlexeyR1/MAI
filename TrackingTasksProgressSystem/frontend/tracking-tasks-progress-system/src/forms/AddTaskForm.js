@@ -61,6 +61,11 @@ function MyDropzone({ attachments, setAttachments }) {
             {attachments.map((attachment, index) => (
                 <p key={index}>
                     <a key={index} href={attachment.data} download>{attachment.name}</a>
+                    <Button
+                        onClick={() => {
+                            setAttachments(attachments.filter(item  => item !== attachment))
+                        }}
+                    >x</Button>
                 </p>
             ))}
         </div>
@@ -190,7 +195,7 @@ function AddTaskForm() {
                         <div>
                             <Button type="submit" disabled={isSubmitting}>Добавить</Button>
                         </div>
-                        <pre>{JSON.stringify(values, null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                     </Form>
                 )}
             </Formik>
