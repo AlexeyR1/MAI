@@ -1,8 +1,6 @@
-import AddTaskForm from "./forms/AddTaskForm";
-
-function App() {
+function App({ children }) {
   return (
-    <AddTaskForm />
+    children
   );
 }
 

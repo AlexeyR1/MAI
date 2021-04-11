@@ -63,7 +63,7 @@ function MyDropzone({ attachments, setAttachments }) {
                     <a key={index} href={attachment.data} download>{attachment.name}</a>
                     <Button
                         onClick={() => {
-                            setAttachments(attachments.filter(item  => item !== attachment))
+                            setAttachments(attachments.filter(item => item !== attachment))
                         }}
                     >x</Button>
                 </p>
@@ -118,20 +118,17 @@ function AddTaskForm() {
 
     return (
         <div>
-            <h1>Добавить задачу</h1>
+            <h1>Создание задачи</h1>
             <Formik
                 initialValues={initialForm}
-                onSubmit={async (data, { setSubmitting, resetForm }) => {
-                    setSubmitting(true);
-
+                onSubmit={async (data, { resetForm }) => {
                     // Данные заносятся не напрямую в форму, т.к. при большом их объеме
-                    // Форма будет медленно отображать внесенные изменения
+                    // Форма будет медленно отображать вносимые изменения
                     data.problemAttachments = attachments;
 
                     await addTask(data);
                     resetForm({});
                     setAttachments([]); // Очистка состояния
-                    setSubmitting(false);
                 }}>
 
                 {({
@@ -193,7 +190,7 @@ function AddTaskForm() {
                             />
                         </FieldArray>
                         <div>
-                            <Button type="submit" disabled={isSubmitting}>Добавить</Button>
+                            <Button type="submit" disabled={isSubmitting}>Создать</Button>
                         </div>
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                     </Form>
