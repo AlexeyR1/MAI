@@ -15,7 +15,9 @@ function DropDownMenu({ data, setData, getData, propName }) {
                 name={propName}
                 type="select"
                 as={Select}
-                onOpen={async () => setData(await getData())}
+                onOpen={async () => {
+                    if (propName !== 'status.id') setData(await getData())
+                }}
             >
                 {data.map(item =>
                     item.lastName == null
