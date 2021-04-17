@@ -87,7 +87,7 @@ function AddTaskForm() {
         priority: {
             id: 2 // Значение по умолчанию
         },
-        problemAnnotation: "",
+        problemDescription: "",
         problemAttachments: []
     });
 
@@ -178,7 +178,7 @@ function AddTaskForm() {
                         </div>
                         <div>
                             <Field
-                                name="problemAnnotation"
+                                name="problemDescription"
                                 placeholder="Комментарий к задаче"
                                 rowsMin={6}
                                 as={TextareaAutosize} />
