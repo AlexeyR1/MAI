@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrackingTasksProgressSystem.Models;
 
@@ -36,11 +32,6 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
                 .IsRequired(false);
             
             builder.Property(employee => employee.Email)
-                .HasMaxLength(50)
-                .IsUnicode(true)
-                .IsRequired(true);         
-            
-            builder.Property(employee => employee.Password)
                 .HasMaxLength(50)
                 .IsUnicode(true)
                 .IsRequired(true);

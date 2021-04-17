@@ -15,7 +15,6 @@ namespace TrackingTasksProgressSystem.Models
         public int? PositionId { get; private set; }
         public Position Position { get; private set; }
         public string Email { get; private set; }
-        public string Password { get; private set; }
         [JsonIgnore]
         public List<Models.Task> CreatedTasks { get; private set; }
         [JsonIgnore]
@@ -25,20 +24,18 @@ namespace TrackingTasksProgressSystem.Models
         public Employee(string firstName,
                         string lastName,
                         Position position,
-                        string email,
-                        string password) : this(firstName, lastName, email, password)
+                        string email) : this(firstName, lastName, email)
         {
             PositionId = position.Id;
             Position = position;
         }
 
 
-        private Employee(string firstName, string lastName, string email, string password)
+        private Employee(string firstName, string lastName, string email)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            Password = password;
         }
     }
 }

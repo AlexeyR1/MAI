@@ -40,10 +40,11 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
         {
             // Магические цифры
             builder.HasData(new Position(1, "Технический специалист", 1),
-                            new Position(2, "Инженер по качеству", 2),
-                            new Position(3, "Младший разработчик", 4),
-                            new Position(4, "Старший разработчик", 4),
-                            new Position(5, "Руководитель проекта", 3));
+                            new Position(2, "Научный сотрудник", 1),
+                            new Position(3, "Инженер по качеству", 2),
+                            new Position(4, "Младший разработчик", 4),
+                            new Position(5, "Старший разработчик", 4),
+                            new Position(6, "Руководитель проекта", 3));
         }
     }
 }

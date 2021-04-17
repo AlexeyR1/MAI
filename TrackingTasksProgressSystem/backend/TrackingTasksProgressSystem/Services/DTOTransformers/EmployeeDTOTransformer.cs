@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TrackingTasksProgressSystem.EFCore;
+﻿using TrackingTasksProgressSystem.EFCore;
 using TrackingTasksProgressSystem.DTO;
 using TrackingTasksProgressSystem.Models;
 using TrackingTasksProgressSystem.Repository.Abstract;
@@ -29,8 +25,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
             return new Employee(dto.FirstName,
                                 dto.LastName,
                                 positionRepository.GetById(dto.Position.Id),
-                                dto.Email,
-                                dto.Password);
+                                dto.Email);
         }
 
 
@@ -42,8 +37,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
                 FirstName = employee.FirstName,
                 LastName = employee.LastName,
                 Position = positionDTOTransformer.ToDto(employee.Position),
-                Email = employee.Email,
-                Password = employee.Password
+                Email = employee.Email
             };
         }
     }
