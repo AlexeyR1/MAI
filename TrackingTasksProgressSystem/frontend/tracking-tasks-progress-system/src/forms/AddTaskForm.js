@@ -60,7 +60,7 @@ function MyDropzone({ attachments, setAttachments }) {
             {isNaN(attachments) && (<h4>Прикрепленные файлы:</h4>)}
             {attachments.map((attachment, index) => (
                 <p key={index}>
-                    <a key={index} href={attachment.data} download>{attachment.name}</a>
+                    <a key={index} href={atob(attachment.data)} download>{attachment.name}</a>
                     <Button
                         onClick={() => {
                             setAttachments(attachments.filter(item => item !== attachment))
