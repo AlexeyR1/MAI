@@ -17,8 +17,8 @@ namespace TrackingTasksProgressSystem.Models
         public int PriorityId { get; private set; }
         public Priority Priority { get; private set; }
         public DateTime UpdatedAt { get; private set; }
-        public string ProblemAnnotation { get; private set; }
-        public string ResponseAnnotation { get; private set; }
+        public string ProblemDescription { get; private set; }
+        public string ResponseDescription { get; private set; }
         public List<ProblemAttachment> ProblemAttachments { get; private set; }
         public List<ResponseAttachment> ResponseAttachments { get; private set; }
 
@@ -29,10 +29,10 @@ namespace TrackingTasksProgressSystem.Models
                     Employee performingBy,
                     Priority priority,
                     DateTime createdAt,
-                    string problemAnnotation,
-                    string responseAnnotation,
+                    string problemDescription,
+                    string responseDescription,
                     List<ProblemAttachment> problemAttachments,
-                    List<ResponseAttachment> responseAttachments) : this(summary, createdAt, problemAnnotation, responseAnnotation)
+                    List<ResponseAttachment> responseAttachments) : this(summary, createdAt, problemDescription, responseDescription)
         {
             StatusId = status.Id;
             Status = status;
@@ -49,13 +49,13 @@ namespace TrackingTasksProgressSystem.Models
 
         private Task(string summary,
                      DateTime updatedAt,
-                     string problemAnnotation,
-                     string responseAnnotation)
+                     string problemDescription,
+                     string responseDescription)
         {
             Summary = summary;
             UpdatedAt = updatedAt;
-            ProblemAnnotation = problemAnnotation;
-            ResponseAnnotation = responseAnnotation;
+            ProblemDescription = problemDescription;
+            ResponseDescription = responseDescription;
         }
     }
 }

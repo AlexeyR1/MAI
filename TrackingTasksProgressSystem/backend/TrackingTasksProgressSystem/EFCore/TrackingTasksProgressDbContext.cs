@@ -32,7 +32,7 @@ namespace TrackingTasksProgressSystem.EFCore
             modelBuilder.ApplyConfiguration(new TaskConfiguration());
             modelBuilder.ApplyConfiguration(new StatusConfiguration());
             modelBuilder.ApplyConfiguration(new PriorityConfiguration());
-            modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
+            modelBuilder.ApplyConfiguration(new ProblemAttachmentConfiguration());
             modelBuilder.ApplyConfiguration(new ResponseAttachmentConfiguration());
         }
     }

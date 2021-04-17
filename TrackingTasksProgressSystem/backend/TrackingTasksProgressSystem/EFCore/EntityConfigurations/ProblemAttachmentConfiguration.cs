@@ -10,7 +10,7 @@ using TrackingTasksProgressSystem.EFCore.EntityConfigurations.Abstract;
 
 namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
 {
-    public class AttachmentConfiguration : BaseAttachmentConfiguration<ProblemAttachment>, IEntityTypeConfiguration<ProblemAttachment>
+    public class ProblemAttachmentConfiguration : BaseAttachmentConfiguration<ProblemAttachment>, IEntityTypeConfiguration<ProblemAttachment>
     {
         void IEntityTypeConfiguration<ProblemAttachment>.Configure(EntityTypeBuilder<ProblemAttachment> builder)
         {

@@ -62,12 +62,12 @@ namespace TrackingTasksProgressSystem.EFCore.EntityConfigurations
             builder.Property(task => task.UpdatedAt)
                 .IsRequired(true);
 
-            builder.Property(task => task.ProblemAnnotation)
+            builder.Property(task => task.ProblemDescription)
                 .HasMaxLength(2000)
                 .IsUnicode(true)
                 .IsRequired(false);
 
-            builder.Property(task => task.ResponseAnnotation)
+            builder.Property(task => task.ResponseDescription)
                  .HasMaxLength(2000)
                 .IsUnicode(true)
                 .IsRequired(false);

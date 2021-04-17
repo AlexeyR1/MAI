@@ -53,8 +53,8 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
                                    employeeRepository.GetById(dto.PerformingBy.Id),
                                    priorityRepository.GetById(dto.Priority.Id),
                                    DateTime.Now,
-                                   dto.ProblemAnnotation,
-                                   dto.ResponseAnnotation,
+                                   dto.ProblemDescription,
+                                   dto.ResponseDescription,
                                    problemAttachments,
                                    responseAttachments);
         }
@@ -74,8 +74,8 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
                 PerformingBy = employeeDtoTransformer.ToDto(task.PerformingBy),
                 Priority = priorityDtoTransformer.ToDto(task.Priority),
                 UpdatedAt = task.UpdatedAt,
-                ProblemAnnotation = task.ProblemAnnotation,
-                ResponseAnnotation = task.ResponseAnnotation,
+                ProblemDescription = task.ProblemDescription,
+                ResponseDescription = task.ResponseDescription,
                 ProblemAttachments = problemAttachments,
                 ResponseAttachments = responseAttachments
             };

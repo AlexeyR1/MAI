@@ -17,8 +17,8 @@ namespace TrackingTasksProgressSystem.DTO
         public ShortEmployeeDTO PerformingBy { get; set; }
         public PriorityDTO Priority { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public string ProblemAnnotation { get; set; }
-        public string ResponseAnnotation { get; set; }
+        public string ProblemDescription { get; set; }
+        public string ResponseDescription { get; set; }
         public List<AttachmentDTO> ProblemAttachments { get; set; }
         public List<AttachmentDTO> ResponseAttachments { get; set; }
     }
