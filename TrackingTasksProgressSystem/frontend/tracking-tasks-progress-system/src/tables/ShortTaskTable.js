@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { remove } from "../api/task";
 import { getAll } from "../api/shortTask";
-import { CircularProgress } from "@material-ui/core";
+
+const numberOfColumns = 5;
 
 function deleteButtonHandler(id) {
     let answer = window.confirm('Вы уверены?')
     if (answer) remove(id)
 }
 
+function showMessage(message) {
+    return (
+        <tr>
+            <td colSpan={numberOfColumns}>{message}</td>
+        </tr>
+    );
+}
+
 function ShortTaskTable() {
-    const numberOfColumns = 4;
     const delay = 5;
 
     const [tasks, setTasks] = useState([]);
@@ -29,11 +37,13 @@ function ShortTaskTable() {
     return (
         <div>
             <h1>Доступные задачи</h1>
+
             <table>
                 <thead>
                     <tr>
                         <th>№</th>
                         <th>Краткое содержание</th>
+                        <th>Исполнитель</th>
                         <th>Статус</th>
                     </tr>
                 </thead>
@@ -43,6 +53,7 @@ function ShortTaskTable() {
                             <tr key={shortTask.id}>
                                 <td>{shortTask.id}</td>
                                 <td><a href={`task/${shortTask.id}`}>{shortTask.summary}</a></td>
+                                <td>{`${shortTask.performingBy.firstName} ${shortTask.performingBy.lastName}`}</td>
                                 <td>{shortTask.status.name}</td>
                                 <td>
                                     <button onClick={() => deleteButtonHandler(shortTask.id)}>Удалить</button>
@@ -50,15 +61,10 @@ function ShortTaskTable() {
                             </tr>
                         )
                     ) : (
-                        isLoading ? (<CircularProgress />
-                        ) : (
-                            <tr>
-                                <td colSpan={numberOfColumns}>В настоящее время нет доступных задач</td>
-                            </tr>
-                        )
+                        isLoading ? showMessage("Загрузка...") : showMessage("В настоящее время нет доступных задач")
                     )}
                 </tbody>
-            </table>
+            </table >
         </div >
     );
 }
