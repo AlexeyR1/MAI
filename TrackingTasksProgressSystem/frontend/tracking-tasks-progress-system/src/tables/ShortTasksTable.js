@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { remove } from "../api/task";
 import { getAll } from "../api/shortTask";
 
-const numberOfColumns = 5;
-
-function deleteButtonHandler(id) {
+export const deleteButtonHandler = async (id, removeFunc) => {
     let answer = window.confirm('Вы уверены?')
-    if (answer) remove(id)
+    if (answer) await removeFunc(id)
 }
 
-function showMessage(message) {
+const showMessage = (message, numberOfColumns) => {
     return (
         <tr>
             <td colSpan={numberOfColumns}>{message}</td>
@@ -17,13 +15,15 @@ function showMessage(message) {
     );
 }
 
-function ShortTaskTable() {
-    const delay = 5;
+function ShortTasksTable() {
+    const numberOfColumns = 5;
 
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        const delay = 2.5;
+
         async function initializeState() {
             setTasks(await getAll());
         }
@@ -56,12 +56,18 @@ function ShortTaskTable() {
                                 <td>{`${shortTask.performingBy.firstName} ${shortTask.performingBy.lastName}`}</td>
                                 <td>{shortTask.status.name}</td>
                                 <td>
-                                    <button onClick={() => deleteButtonHandler(shortTask.id)}>Удалить</button>
+                                    <button onClick={async () => {
+                                        setTasks(tasks.filter(item => item.id !== shortTask.id))
+                                        await deleteButtonHandler(shortTask.id, remove);
+                                    }
+                                    }>Удалить</button>
                                 </td>
                             </tr>
                         )
                     ) : (
-                        isLoading ? showMessage("Загрузка...") : showMessage("В настоящее время нет доступных задач")
+                        isLoading
+                            ? showMessage("Загрузка...", numberOfColumns)
+                            : showMessage("В настоящее время нет доступных задач", numberOfColumns)
                     )}
                 </tbody>
             </table >
@@ -69,4 +75,4 @@ function ShortTaskTable() {
     );
 }
 
-export default ShortTaskTable;
+export default ShortTasksTable;

@@ -181,7 +181,7 @@ function AddTaskForm() {
                         <div>
                             <Field
                                 name="problemDescription"
-                                placeholder="Комментарий к задаче"
+                                placeholder="Описание задачи"
                                 rowsMin={6}
                                 as={TextareaAutosize} />
                         </div>
