@@ -7,10 +7,11 @@ export const deleteButtonHandler = async (id, removeFunc) => {
     if (answer) await removeFunc(id)
 }
 
-const showMessage = (message, numberOfColumns) => {
+const Message = ({ props }) => {
+    console.log(props);
     return (
         <tr>
-            <td colSpan={numberOfColumns}>{message}</td>
+            <td colSpan={props.columnsNumber}>{props.text}</td>
         </tr>
     );
 }
@@ -22,7 +23,7 @@ function ShortTasksTable() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const delay = 2.5;
+        const delay = 2;
 
         async function initializeState() {
             setTasks(await getAll());
@@ -45,6 +46,7 @@ function ShortTasksTable() {
                         <th>Краткое содержание</th>
                         <th>Исполнитель</th>
                         <th>Статус</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,8 +68,14 @@ function ShortTasksTable() {
                         )
                     ) : (
                         isLoading
-                            ? showMessage("Загрузка...", numberOfColumns)
-                            : showMessage("В настоящее время нет доступных задач", numberOfColumns)
+                            ? (<Message props={{
+                                text: "Загрузка...",
+                                columnsNumber: numberOfColumns
+                            }} />)
+                            : (<Message props={{
+                                text: "В настоящее время нет доступных задач",
+                                columnsNumber: numberOfColumns
+                            }} />)
                     )}
                 </tbody>
             </table >

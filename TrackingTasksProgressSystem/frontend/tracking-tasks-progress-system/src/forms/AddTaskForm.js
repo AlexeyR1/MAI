@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react"
 import { Formik, Field, Form, FieldArray } from "formik"
-import { Button, TextField, Select, MenuItem, TextareaAutosize } from "@material-ui/core";
+import { TextField, Select, MenuItem, TextareaAutosize } from "@material-ui/core";
 import { getAll as getStatuses } from "../api/status";
 import { getAll as getPriorities } from "../api/priority";
 import { getAll as getEmployees } from "../api/shortEmployee";
@@ -8,9 +8,10 @@ import { add as addTask } from "../api/task";
 import { useDropzone } from "react-dropzone";
 // import { date } from "yup";
 
-function DropDownMenu({ data, setData, getData, propName }) {
+function DropDownMenu({ data, setData, getData, propName, legendName }) {
     return (
         <div>
+            <div className="label">{legendName}</div>
             <Field
                 name={propName}
                 type="select"
@@ -55,21 +56,25 @@ function MyDropzone({ attachments, setAttachments }) {
 
     return (
         <div>
-            <div {...getRootProps()}>
+            <div className="label">Файлы к задаче</div>
+            <div className="dropzone" {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Поместите сюда Ваши файлы</p>
+                <p>&nbsp;&nbsp;Поместите сюда Ваши файлы</p>
             </div>
-            {isNaN(attachments) && (<h4>Прикрепленные файлы:</h4>)}
-            {attachments.map((attachment, index) => (
-                <p key={index}>
-                    <a key={index} href={atob(attachment.data)} download>{attachment.name}</a>
-                    <Button
-                        onClick={() => {
-                            setAttachments(attachments.filter(item => item !== attachment))
-                        }}
-                    >x</Button>
-                </p>
-            ))}
+            {/* {isNaN(attachments) && (<div className="label">Прикрепленные файлы</div>)} */}
+            <div className="attachment-container">
+                {attachments.map((attachment, index) => (
+                    <div key={index}>
+                        <a key={index} href={atob(attachment.data)} style={{ marginRight: '2%' }} download>{attachment.name}</a>
+                        <button
+                            className="muted-button"
+                            onClick={() => {
+                                setAttachments(attachments.filter(item => item !== attachment))
+                            }}
+                        >x</button>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
@@ -119,7 +124,7 @@ function AddTaskForm() {
     const [attachments, setAttachments] = useState([])
 
     return (
-        <div>
+        <div className="custom-container">
             <h1>Создание задачи</h1>
             <Formik
                 initialValues={initialForm}
@@ -139,11 +144,13 @@ function AddTaskForm() {
                 }) => (
                     <Form>
                         <div>
+                            <div className="label">Краткое описание</div>
                             <Field
                                 name="summary"
                                 type="input"
-                                placeholder="Краткое описание"
+                                placeholder="Введите текст"
                                 as={TextField}
+                                fullWidth
                             />
                         </div>
                         <div>
@@ -152,6 +159,7 @@ function AddTaskForm() {
                                 setData={setStatuses}
                                 getData={getStatuses}
                                 propName={"status.id"}
+                                legendName="Статус"
                             />
                         </div>
                         <div>
@@ -160,6 +168,7 @@ function AddTaskForm() {
                                 setData={setAuthors}
                                 getData={getEmployees}
                                 propName={"author.id"}
+                                legendName="Автор"
                             />
                         </div>
                         <div>
@@ -168,6 +177,7 @@ function AddTaskForm() {
                                 setData={setPerformers}
                                 getData={getEmployees}
                                 propName={"performingBy.id"}
+                                legendName="Исполнитель"
                             />
                         </div>
                         <div>
@@ -176,14 +186,17 @@ function AddTaskForm() {
                                 setData={setPriorities}
                                 getData={getPriorities}
                                 propName={"priority.id"}
+                                legendName="Приоритет"
                             />
                         </div>
                         <div>
+                            <div className="label">Подробное описание</div>
                             <Field
                                 name="problemDescription"
-                                placeholder="Описание задачи"
+                                placeholder="Введите текст"
                                 rowsMin={6}
-                                as={TextareaAutosize} />
+                                as={TextareaAutosize}
+                            />
                         </div>
                         <FieldArray name="problemAttachments">
                             <MyDropzone
@@ -192,7 +205,7 @@ function AddTaskForm() {
                             />
                         </FieldArray>
                         <div>
-                            <Button type="submit" disabled={isSubmitting}>Создать</Button>
+                            <button type="submit" disabled={isSubmitting}>Создать</button>
                         </div>
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                     </Form>

@@ -1,6 +1,6 @@
 function App({ children }) {
   return (
-    children
+    <div className="full-container">{children}</div>
   );
 }
 
