@@ -1,17 +1,17 @@
-import React, { useState, useCallback } from "react"
-import { Formik, Field, Form, FieldArray } from "formik"
-import { TextField, Select, MenuItem, TextareaAutosize } from "@material-ui/core";
+import React, { useState } from "react"
+import { Formik, Field, Form } from "formik"
+import { Select, MenuItem } from "@material-ui/core";
+import { add as addTask } from "../api/task";
+import { DefaultForm } from './DefaultForm';
 import { getAll as getStatuses } from "../api/status";
 import { getAll as getPriorities } from "../api/priority";
 import { getAll as getEmployees } from "../api/shortEmployee";
-import { add as addTask } from "../api/task";
-import { useDropzone } from "react-dropzone";
 // import { date } from "yup";
 
-function DropDownMenu({ data, setData, getData, propName, legendName }) {
+function DropDownMenu({ data, setData, getData, propName, labelName }) {
     return (
         <div>
-            <div className="label">{legendName}</div>
+            <div className="label">{labelName}</div>
             <Field
                 name={propName}
                 type="select"
@@ -28,55 +28,6 @@ function DropDownMenu({ data, setData, getData, propName, legendName }) {
             </Field>
         </div>
     );
-}
-
-function MyDropzone({ attachments, setAttachments }) {
-    const MAX_SIZE = 1073741824; // 1 Гб
-
-    const onDrop = useCallback((acceptedFiles) => {
-        acceptedFiles.forEach(async (file) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onabort = () => console.warn('file reading was aborted')
-            reader.onerror = () => console.error('file reading has failed')
-            reader.onload = () => {
-                setAttachments([...attachments, {
-                    name: file.name,
-                    data: btoa(reader.result)
-                }]);
-            }
-        })
-
-    }, [attachments, setAttachments])
-    const { getRootProps, getInputProps } = useDropzone({
-        onDrop,
-        maxSize: MAX_SIZE
-    })
-
-    return (
-        <div>
-            <div className="label">Файлы к задаче</div>
-            <div className="dropzone" {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p>&nbsp;&nbsp;Поместите сюда Ваши файлы</p>
-            </div>
-            {/* {isNaN(attachments) && (<div className="label">Прикрепленные файлы</div>)} */}
-            <div className="attachment-container">
-                {attachments.map((attachment, index) => (
-                    <div key={index}>
-                        <a key={index} href={atob(attachment.data)} style={{ marginRight: '2%' }} download>{attachment.name}</a>
-                        <button
-                            className="muted-button"
-                            onClick={() => {
-                                setAttachments(attachments.filter(item => item !== attachment))
-                            }}
-                        >x</button>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
 }
 
 function AddTaskForm() {
@@ -121,7 +72,7 @@ function AddTaskForm() {
     }]);
 
     // Буфер для прикреплений
-    const [attachments, setAttachments] = useState([])
+    const [problemAttachments, setProblemAttachments] = useState([])
 
     return (
         <div className="custom-container">
@@ -131,11 +82,13 @@ function AddTaskForm() {
                 onSubmit={async (data, { resetForm }) => {
                     // Данные заносятся не напрямую в форму, т.к. при большом их объеме
                     // Форма будет медленно отображать вносимые изменения
-                    data.problemAttachments = attachments;
+                    data.problemAttachments = problemAttachments;
 
                     await addTask(data);
+
+                    // Очистка состояний
                     resetForm({});
-                    setAttachments([]); // Очистка состояния
+                    setProblemAttachments([]);
                 }}>
 
                 {({
@@ -143,75 +96,52 @@ function AddTaskForm() {
                     isSubmitting
                 }) => (
                     <Form>
-                        <div>
-                            <div className="label">Краткое описание</div>
-                            <Field
-                                name="summary"
-                                type="input"
-                                placeholder="Введите текст"
-                                as={TextField}
-                                fullWidth
-                            />
-                        </div>
-                        <div>
-                            <DropDownMenu
+                        <DefaultForm
+                            Status={<DropDownMenu
                                 data={statuses}
                                 setData={setStatuses}
                                 getData={getStatuses}
                                 propName={"status.id"}
-                                legendName="Статус"
-                            />
-                        </div>
-                        <div>
-                            <DropDownMenu
-                                data={authors}
-                                setData={setAuthors}
-                                getData={getEmployees}
-                                propName={"author.id"}
-                                legendName="Автор"
-                            />
-                        </div>
-                        <div>
-                            <DropDownMenu
-                                data={performers}
-                                setData={setPerformers}
-                                getData={getEmployees}
-                                propName={"performingBy.id"}
-                                legendName="Исполнитель"
-                            />
-                        </div>
-                        <div>
-                            <DropDownMenu
-                                data={priorities}
-                                setData={setPriorities}
-                                getData={getPriorities}
-                                propName={"priority.id"}
-                                legendName="Приоритет"
-                            />
-                        </div>
-                        <div>
-                            <div className="label">Подробное описание</div>
-                            <Field
-                                name="problemDescription"
-                                placeholder="Введите текст"
-                                rowsMin={6}
-                                as={TextareaAutosize}
-                            />
-                        </div>
-                        <FieldArray name="problemAttachments">
-                            <MyDropzone
-                                attachments={attachments}
-                                setAttachments={setAttachments}
-                            />
-                        </FieldArray>
-                        <div>
-                            <button type="submit" disabled={isSubmitting}>Создать</button>
-                        </div>
-                        {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                                labelName="Статус"
+                            />}
+                            Author={
+                                <DropDownMenu
+                                    data={authors}
+                                    setData={setAuthors}
+                                    getData={getEmployees}
+                                    propName={"author.id"}
+                                    labelName="Автор"
+                                />}
+                            PerformingBy={
+                                <DropDownMenu
+                                    data={performers}
+                                    setData={setPerformers}
+                                    getData={getEmployees}
+                                    propName={"performingBy.id"}
+                                    labelName="Исполнитель"
+                                />}
+                            Priority={
+                                <DropDownMenu
+                                    data={priorities}
+                                    setData={setPriorities}
+                                    getData={getPriorities}
+                                    propName={"priority.id"}
+                                    labelName="Приоритет"
+                                />}
+                            problemAttachments={{
+                                problemAttachments,
+                                setProblemAttachments
+                            }}
+                        >
+                            <div>
+                                <button type="submit" disabled={isSubmitting}>Создать</button>
+                            </div>
+                            {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                        </DefaultForm>
                     </Form>
                 )}
             </Formik>
-        </div>
+        </div >
     );
 }
 

@@ -8,7 +8,6 @@ export const deleteButtonHandler = async (id, removeFunc) => {
 }
 
 const Message = ({ props }) => {
-    console.log(props);
     return (
         <tr>
             <td colSpan={props.columnsNumber}>{props.text}</td>
@@ -68,14 +67,14 @@ function ShortTasksTable() {
                         )
                     ) : (
                         isLoading
-                            ? (<Message props={{
+                            ? <Message props={{
                                 text: "Загрузка...",
                                 columnsNumber: numberOfColumns
-                            }} />)
-                            : (<Message props={{
+                            }} />
+                            : <Message props={{
                                 text: "В настоящее время нет доступных задач",
                                 columnsNumber: numberOfColumns
-                            }} />)
+                            }} />
                     )}
                 </tbody>
             </table >
