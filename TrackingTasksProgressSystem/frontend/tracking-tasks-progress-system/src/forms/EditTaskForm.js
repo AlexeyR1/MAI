@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Field, Form, FieldArray } from "formik"
 import { useParams, useHistory } from "react-router-dom";
-import { Select, MenuItem, TextareaAutosize } from "@material-ui/core";
+import { Select, MenuItem } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getAll as getStatuses } from "../api/status";
 import { getAll as getPriorities } from "../api/priority";
 import { getAll as getEmployees } from "../api/shortEmployee";
 import { getById, update, remove } from "../api/task";
 import { deleteButtonHandler } from "../tables/ShortTasksTable";
-import { AttachedFiles, MyDropzone, DefaultForm } from "./DefaultForm";
+import { AttachedFiles, MyDropzone, DefaultForm, MyTextArea } from "./DefaultForm";
+import * as yup from "yup";
 
 function DropDownMenu({ data, setData, getData, propName, labelName, values }) {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -45,6 +46,24 @@ function EditTaskForm() {
     const [initialValues, setInitialValues] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
+    const validationSchema = yup.object({
+        summary: yup.string().required().max(100),
+        status: yup.object({
+            id: yup.number().required()
+        }),
+        author: yup.object({
+            id: yup.number().required()
+        }),
+        performingBy: yup.object({
+            id: yup.number().required()
+        }),
+        priority: yup.object({
+            id: yup.number().required()
+        }),
+        problemDescription: yup.string().max(2000),
+        responseDescription: yup.string().max(2000),
+    });
+
     const [task, setTask] = useState();
     const [statuses, setStatuses] = useState();
     const [authors, setAuthors] = useState();
@@ -58,7 +77,7 @@ function EditTaskForm() {
     const localtion = { pathname: "/tasks" }
 
     useEffect(() => {
-        const delay = 1.5;
+        const delay = 2;
 
         async function initializeState() {
             setTask(await getById(id));
@@ -103,6 +122,8 @@ function EditTaskForm() {
                             <h1>Задача №{task.id}</h1>
                             <Formik
                                 initialValues={initialValues}
+                                validateOnChange={true}
+                                validationSchema={validationSchema}
                                 onSubmit={async (data) => {
                                     // Данные заносятся не напрямую в форму, т.к. при большом их объеме
                                     // Форма будет медленно отображать вносимые изменения
@@ -115,6 +136,7 @@ function EditTaskForm() {
 
                                 {({
                                     values, // Текущее состояние формы
+                                    errors,
                                     isSubmitting
                                 }) => (
                                     <Form>
@@ -161,11 +183,10 @@ function EditTaskForm() {
                                         >
                                             <div id="responseDescription">
                                                 <div className="label">Комментарий к ответу</div>
-                                                <Field
+                                                <MyTextArea
                                                     name="responseDescription"
-                                                    placeholder="Комментарий к ответу"
-                                                    rowsMin={6}
-                                                    as={TextareaAutosize} />
+                                                    placeholder="Введите текст"
+                                                />
                                             </div>
                                             <div id="responseAttachments">
                                                 <div className="label">Файлы к ответу</div>
@@ -188,13 +209,15 @@ function EditTaskForm() {
                                                     className="accent-button"
                                                     type="button"
                                                     onClick={async () => {
-                                                        await deleteButtonHandler(task.id, remove)
-                                                        history.replace(localtion.pathname)
+                                                        if (await deleteButtonHandler(task.id, remove)) {
+                                                            history.replace(localtion.pathname)
+                                                        }
                                                     }}
                                                     disabled={isSubmitting}
                                                 >Удалить</button>
                                             </div>
                                             {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                                            {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
                                         </DefaultForm>
                                     </Form>
                                 )}

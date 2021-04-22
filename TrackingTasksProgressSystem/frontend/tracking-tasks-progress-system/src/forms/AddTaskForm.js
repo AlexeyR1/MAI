@@ -1,21 +1,23 @@
 import React, { useState } from "react"
-import { Formik, Field, Form } from "formik"
+import { Formik, useField, Form } from "formik"
 import { Select, MenuItem } from "@material-ui/core";
 import { add as addTask } from "../api/task";
 import { DefaultForm } from './DefaultForm';
 import { getAll as getStatuses } from "../api/status";
 import { getAll as getPriorities } from "../api/priority";
 import { getAll as getEmployees } from "../api/shortEmployee";
-// import { date } from "yup";
+import * as yup from "yup";
 
 function DropDownMenu({ data, setData, getData, propName, labelName }) {
+    const [field, meta] = useField(propName);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+
     return (
         <div>
             <div className="label">{labelName}</div>
-            <Field
-                name={propName}
-                type="select"
-                as={Select}
+            <Select
+                {...field}
+                error={!!errorText}
                 onOpen={async () => {
                     if (propName !== 'status.id') setData(await getData())
                 }}
@@ -25,7 +27,7 @@ function DropDownMenu({ data, setData, getData, propName, labelName }) {
                         ? <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                         : <MenuItem key={item.id} value={item.id}>{`${item.firstName} ${item.lastName}`}</MenuItem>
                 )}
-            </Field>
+            </Select>
         </div>
     );
 }
@@ -47,6 +49,23 @@ function AddTaskForm() {
         },
         problemDescription: "",
         problemAttachments: []
+    });
+
+    const validationSchema = yup.object({
+        summary: yup.string().required().max(100),
+        status: yup.object({
+            id: yup.number().required()
+        }),
+        author: yup.object({
+            id: yup.number().required().notOneOf([0])
+        }),
+        performingBy: yup.object({
+            id: yup.number().required().notOneOf([0])
+        }),
+        priority: yup.object({
+            id: yup.number().required()
+        }),
+        problemDescription: yup.string().max(2000)
     });
 
     const [statuses, setStatuses] = useState([{
@@ -79,6 +98,8 @@ function AddTaskForm() {
             <h1>Создание задачи</h1>
             <Formik
                 initialValues={initialForm}
+                validateOnChange={true}
+                validationSchema={validationSchema}
                 onSubmit={async (data, { resetForm }) => {
                     // Данные заносятся не напрямую в форму, т.к. при большом их объеме
                     // Форма будет медленно отображать вносимые изменения
@@ -93,6 +114,7 @@ function AddTaskForm() {
 
                 {({
                     values, // Текущее состояние формы
+                    errors,
                     isSubmitting
                 }) => (
                     <Form>
@@ -137,6 +159,7 @@ function AddTaskForm() {
                                 <button type="submit" disabled={isSubmitting}>Создать</button>
                             </div>
                             {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                            {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
                         </DefaultForm>
                     </Form>
                 )}

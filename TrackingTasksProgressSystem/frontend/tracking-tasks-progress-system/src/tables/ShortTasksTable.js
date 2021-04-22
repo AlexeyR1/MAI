@@ -5,6 +5,8 @@ import { getAll } from "../api/shortTask";
 export const deleteButtonHandler = async (id, removeFunc) => {
     let answer = window.confirm('Вы уверены?')
     if (answer) await removeFunc(id)
+
+    return answer;
 }
 
 const Message = ({ props }) => {

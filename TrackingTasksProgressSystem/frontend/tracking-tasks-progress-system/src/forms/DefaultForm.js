@@ -1,7 +1,7 @@
 import React, { useCallback } from "react"
-import { Field, FieldArray } from "formik"
+import { FieldArray, useField } from "formik"
 import { useDropzone } from "react-dropzone";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import { TextField, TextareaAutosize, FormHelperText, FormControl } from "@material-ui/core";
 
 export function AttachedFiles({ attachments, setAttachments }) {
     return (
@@ -64,17 +64,48 @@ export function MyDropzone({ attachments, setAttachments }) {
     )
 }
 
+export const MyTextField = ({ placeholder, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+
+    return (
+        <TextField
+            {...field}
+            placeholder={placeholder}
+            variant="outlined"
+            fullWidth
+            size="small"
+            helperText={errorText}
+            error={!!errorText}
+        />
+    )
+}
+
+export const MyTextArea = ({ placeholder, ...props }) => {
+    const [field, meta] = useField(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+
+    return (
+        <FormControl style={{width: '100%'}}>
+            <TextareaAutosize
+                {...field}
+                placeholder={placeholder}
+                rowsMin={6}
+            />
+            <div><FormHelperText error={!!errorText}>{errorText}</FormHelperText></div>
+        </FormControl>
+    )
+}
+
 export function DefaultForm({ Status, Author, PerformingBy, Priority, problemAttachments, children }) {
     return (
         <div>
             <div id="summary">
                 <div className="label">Краткое описание</div>
-                <Field
+                <MyTextField
                     name="summary"
                     type="input"
                     placeholder="Введите текст"
-                    as={TextField}
-                    fullWidth
                 />
             </div>
             <div id="status">{Status}</div>
@@ -83,11 +114,9 @@ export function DefaultForm({ Status, Author, PerformingBy, Priority, problemAtt
             <div id="priority">{Priority}</div>
             <div id="problemDescription">
                 <div className="label">Описание задачи</div>
-                <Field
+                <MyTextArea
                     name="problemDescription"
                     placeholder="Введите текст"
-                    rowsMin={6}
-                    as={TextareaAutosize}
                 />
             </div>
             <div id="problemAttachments">
