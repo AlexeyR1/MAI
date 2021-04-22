@@ -48,6 +48,7 @@ function AddTaskForm() {
             id: 2 // Значение по умолчанию
         },
         problemDescription: "",
+        responseDescription: "",
         problemAttachments: []
     });
 
