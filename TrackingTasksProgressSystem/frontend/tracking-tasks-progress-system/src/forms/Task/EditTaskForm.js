@@ -3,12 +3,12 @@ import { Formik, Field, Form, FieldArray } from "formik"
 import { useParams, useHistory } from "react-router-dom";
 import { Select, MenuItem } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { getAll as getStatuses } from "../api/status";
-import { getAll as getPriorities } from "../api/priority";
-import { getAll as getEmployees } from "../api/shortEmployee";
-import { getById, update, remove } from "../api/task";
-import { deleteButtonHandler } from "../tables/ShortTasksTable";
-import { AttachedFiles, MyDropzone, DefaultForm, MyTextArea } from "./DefaultForm";
+import { getAll as getStatuses } from "../../api/status";
+import { getAll as getPriorities } from "../../api/priority";
+import { getAll as getEmployees } from "../../api/shortEmployee";
+import { getById, update, remove } from "../../api/task";
+import { deleteButtonHandler } from "../../tables/ShortTasksTable";
+import { AttachedFiles, MyDropzone, DefaultTaskForm, MyTextArea } from "./DefaultTaskForm";
 import * as yup from "yup";
 
 function DropDownMenu({ data, setData, getData, propName, labelName, values }) {
@@ -77,7 +77,7 @@ function EditTaskForm() {
     const localtion = { pathname: "/tasks" }
 
     useEffect(() => {
-        const delay = 2;
+        const delay = 2.5;
 
         async function initializeState() {
             setTask(await getById(id));
@@ -140,7 +140,7 @@ function EditTaskForm() {
                                     isSubmitting
                                 }) => (
                                     <Form>
-                                        <DefaultForm
+                                        <DefaultTaskForm
                                             Status={<DropDownMenu
                                                 data={statuses}
                                                 setData={setStatuses}
@@ -218,7 +218,7 @@ function EditTaskForm() {
                                             </div>
                                             {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                                             {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
-                                        </DefaultForm>
+                                        </DefaultTaskForm>
                                     </Form>
                                 )}
                             </Formik>

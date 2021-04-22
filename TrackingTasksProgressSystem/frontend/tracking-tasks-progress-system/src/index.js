@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-import AddTaskForm from './forms/AddTaskForm';
-import EditTaskForm from './forms/EditTaskForm';
+import AddTaskForm from './forms/Task/AddTaskForm';
+import EditTaskForm from './forms/Task/EditTaskForm';
 import ShortTasksTable from "./tables/ShortTasksTable";
 import Header from "./main/Header";
 

@@ -97,7 +97,7 @@ export const MyTextArea = ({ placeholder, ...props }) => {
     )
 }
 
-export function DefaultForm({ Status, Author, PerformingBy, Priority, problemAttachments, children }) {
+export function DefaultTaskForm({ Status, Author, PerformingBy, Priority, problemAttachments, children }) {
     return (
         <div>
             <div id="summary">

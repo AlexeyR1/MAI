@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { Formik, useField, Form } from "formik"
 import { Select, MenuItem } from "@material-ui/core";
-import { add as addTask } from "../api/task";
-import { DefaultForm } from './DefaultForm';
-import { getAll as getStatuses } from "../api/status";
-import { getAll as getPriorities } from "../api/priority";
-import { getAll as getEmployees } from "../api/shortEmployee";
+import { add as addTask } from "../../api/task";
+import { DefaultTaskForm } from './DefaultTaskForm';
+import { getAll as getStatuses } from "../../api/status";
+import { getAll as getPriorities } from "../../api/priority";
+import { getAll as getEmployees } from "../../api/shortEmployee";
 import * as yup from "yup";
 
 function DropDownMenu({ data, setData, getData, propName, labelName }) {
@@ -119,7 +119,7 @@ function AddTaskForm() {
                     isSubmitting
                 }) => (
                     <Form>
-                        <DefaultForm
+                        <DefaultTaskForm
                             Status={<DropDownMenu
                                 data={statuses}
                                 setData={setStatuses}
@@ -161,7 +161,7 @@ function AddTaskForm() {
                             </div>
                             {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                             {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
-                        </DefaultForm>
+                        </DefaultTaskForm>
                     </Form>
                 )}
             </Formik>
