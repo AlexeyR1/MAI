@@ -53,7 +53,7 @@ function AddTaskForm() {
     });
 
     const validationSchema = yup.object({
-        summary: yup.string().required().max(100),
+        summary: yup.string().required().max(150),
         status: yup.object({
             id: yup.number().required()
         }),

@@ -11,7 +11,7 @@ import { deleteButtonHandler } from "../../tables/ShortTasksTable";
 import { AttachedFiles, MyDropzone, DefaultTaskForm, MyTextArea } from "./DefaultTaskForm";
 import * as yup from "yup";
 
-function DropDownMenu({ data, setData, getData, propName, labelName, values }) {
+function DropDownMenu({ data, setData, getData, propName, labelName, values, isDisabled }) {
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     return (
@@ -21,6 +21,7 @@ function DropDownMenu({ data, setData, getData, propName, labelName, values }) {
                 name={propName}
                 type="select"
                 as={Select}
+                disabled={isDisabled}
                 onOpen={async () => {
                     setData(await getData())
                     setIsDataLoaded(true);
@@ -47,7 +48,7 @@ function EditTaskForm() {
     const [isLoading, setIsLoading] = useState(true);
 
     const validationSchema = yup.object({
-        summary: yup.string().required().max(100),
+        summary: yup.string().required().max(150),
         status: yup.object({
             id: yup.number().required()
         }),
@@ -77,16 +78,16 @@ function EditTaskForm() {
     const localtion = { pathname: "/tasks" }
 
     useEffect(() => {
-        const delay = 2.5;
-
         async function initializeState() {
-            setTask(await getById(id));
+            let result = await getById(id);
+            if (!result) setIsLoading(false)
+            else {
+                setTask(result)
+                setIsLoading(false)
+            }
         }
 
         initializeState();
-        setTimeout(() => {
-            setIsLoading(false);
-        }, delay * 1000);
     }, [id])
 
     useEffect(() => {
@@ -119,8 +120,8 @@ function EditTaskForm() {
                     ? <div>Соединение с сервером недоступно</div>
                     : (
                         <React.Fragment>
-                            <h1 style={{marginBottom: '0'}}>Задача №{task.id}</h1>
-                            <div style={{fontSize: '80%'}}>Обновлено: {task.updatedAt}</div>
+                            <h1 style={{ marginBottom: '0' }}>Задача №{task.id}</h1>
+                            <div style={{ fontSize: '80%' }}>Обновлено: {task.updatedAt}</div>
                             <Formik
                                 initialValues={initialValues}
                                 validateOnChange={true}
@@ -149,6 +150,7 @@ function EditTaskForm() {
                                                 propName={"status.id"}
                                                 labelName="Статус"
                                                 values={values.status}
+                                                isDisabled={false}
                                             />}
                                             Author={
                                                 <DropDownMenu
@@ -158,6 +160,7 @@ function EditTaskForm() {
                                                     propName={"author.id"}
                                                     labelName="Автор"
                                                     values={values.author}
+                                                    isDisabled={true}
                                                 />}
                                             PerformingBy={
                                                 <DropDownMenu
@@ -167,6 +170,7 @@ function EditTaskForm() {
                                                     propName={"performingBy.id"}
                                                     labelName="Исполнитель"
                                                     values={values.performingBy}
+                                                    isDisabled={false}
                                                 />}
                                             Priority={
                                                 <DropDownMenu
@@ -176,6 +180,7 @@ function EditTaskForm() {
                                                     propName={"priority.id"}
                                                     labelName="Приоритет"
                                                     values={values.priority}
+                                                    isDisabled={false}
                                                 />}
                                             problemAttachments={{
                                                 problemAttachments,

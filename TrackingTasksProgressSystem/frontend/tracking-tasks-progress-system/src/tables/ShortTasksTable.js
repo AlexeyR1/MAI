@@ -24,16 +24,16 @@ function ShortTasksTable() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const delay = 2;
-
         async function initializeState() {
-            setTasks(await getAll());
+            let result = await getAll();
+            if (!result) setIsLoading(false)
+            else {
+                setTasks(result)
+                setIsLoading(false)
+            }
         }
 
         initializeState();
-        setTimeout(() => {
-            setIsLoading(false);
-        }, delay * 1000);
     }, [])
 
     return (
