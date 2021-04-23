@@ -98,6 +98,14 @@ function AddEmployeeForm() {
                                 labelName="Должность"
                             />
                         </div>
+                        <div>
+                            <div className="label">Отдел</div>
+                            <Select value={values.position.id} disabled>
+                                {positions.map(item =>
+                                    <MenuItem key={item.id} value={item.id}>{item.department.name}</MenuItem>
+                                )}
+                            </Select>
+                        </div>
                         <div id="email">
                             <div className="label">Электронный адрес</div>
                             <MyTextField
@@ -109,7 +117,7 @@ function AddEmployeeForm() {
                         <div>
                             <button type="submit" style={{ marginTop: '3%' }} disabled={isSubmitting}>Добавить</button>
                         </div>
-                        {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                        <pre>{JSON.stringify(values, null, 2)}</pre>
                         {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
                     </Form>
                 )}
