@@ -119,7 +119,8 @@ function EditTaskForm() {
                     ? <div>Соединение с сервером недоступно</div>
                     : (
                         <React.Fragment>
-                            <h1>Задача №{task.id}</h1>
+                            <h1 style={{marginBottom: '0'}}>Задача №{task.id}</h1>
+                            <div style={{fontSize: '80%'}}>Обновлено: {task.updatedAt}</div>
                             <Formik
                                 initialValues={initialValues}
                                 validateOnChange={true}

@@ -73,7 +73,7 @@ namespace TrackingTasksProgressSystem.Services.DTOTransformers
                 Author = employeeDtoTransformer.ToDto(task.Author),
                 PerformingBy = employeeDtoTransformer.ToDto(task.PerformingBy),
                 Priority = priorityDtoTransformer.ToDto(task.Priority),
-                UpdatedAt = task.UpdatedAt,
+                UpdatedAt = DateTime.Parse($"{ task.UpdatedAt.ToString():d MMMM, yyyy}"),
                 ProblemDescription = task.ProblemDescription,
                 ResponseDescription = task.ResponseDescription,
                 ProblemAttachments = problemAttachments,
