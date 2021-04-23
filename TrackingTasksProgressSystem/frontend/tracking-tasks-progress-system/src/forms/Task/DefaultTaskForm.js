@@ -1,7 +1,8 @@
 import React, { useCallback } from "react"
 import { FieldArray, useField } from "formik"
 import { useDropzone } from "react-dropzone";
-import { TextField, TextareaAutosize, FormHelperText, FormControl } from "@material-ui/core";
+import { TextareaAutosize, FormHelperText, FormControl } from "@material-ui/core";
+import { MyTextField } from "../TextField";
 
 export function AttachedFiles({ attachments, setAttachments }) {
     return (
@@ -61,23 +62,6 @@ export function MyDropzone({ attachments, setAttachments }) {
                 <p>&nbsp;&nbsp;Поместите сюда Ваши файлы</p>
             </div>
         </div>
-    )
-}
-
-export const MyTextField = ({ placeholder, ...props }) => {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-
-    return (
-        <TextField
-            {...field}
-            placeholder={placeholder}
-            variant="outlined"
-            fullWidth
-            size="small"
-            helperText={errorText}
-            error={!!errorText}
-        />
     )
 }
 

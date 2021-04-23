@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Formik, useField } from "formik";
-import { MyTextField } from "../Task/DefaultTaskForm";
+import { MyTextField } from "../TextField";
 import { Select, MenuItem } from "@material-ui/core";
 import { getAll } from "../../api/position";
 import { add } from "../../api/employee";
@@ -107,7 +107,7 @@ function AddEmployeeForm() {
                             />
                         </div>
                         <div>
-                            <button type="submit" style={{marginTop: '3%'}} disabled={isSubmitting}>Добавить</button>
+                            <button type="submit" style={{ marginTop: '3%' }} disabled={isSubmitting}>Добавить</button>
                         </div>
                         {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                         {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
