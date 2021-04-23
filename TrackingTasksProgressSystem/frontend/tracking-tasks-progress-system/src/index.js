@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AddTaskForm from './forms/Task/AddTaskForm';
 import EditTaskForm from './forms/Task/EditTaskForm';
 import ShortTasksTable from "./tables/ShortTasksTable";
+import AddEmployeeForm from './forms/Employee/AddEmployeeForm';
 import Header from "./main/Header";
 
 ReactDOM.render(
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route exact path='/tasks' component={ShortTasksTable} />
         <Route path='/tasks/add' component={AddTaskForm} />
         <Route path='/task/:id(\d+)' component={EditTaskForm} />
+        <Route path='/employees/add' component={AddEmployeeForm} />
       </Switch>
     </App>
   </BrowserRouter>,

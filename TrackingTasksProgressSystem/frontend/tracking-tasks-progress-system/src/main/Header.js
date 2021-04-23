@@ -12,6 +12,9 @@ function Header() {
                 <div>
                     <a href="/tasks" className="button">Список задач</a>
                 </div>
+                <div>
+                    <a href="/employees/add" className="button">Добавление сотрудника</a>
+                </div>
             </Toolbar>
         </AppBar >
     );

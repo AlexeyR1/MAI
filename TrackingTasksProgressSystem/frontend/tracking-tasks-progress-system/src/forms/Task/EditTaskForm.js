@@ -61,8 +61,8 @@ function EditTaskForm() {
         priority: yup.object({
             id: yup.number().required()
         }),
-        problemDescription: yup.string().max(2000),
-        responseDescription: yup.string().max(2000),
+        problemDescription: yup.string().max(2000).nullable(),
+        responseDescription: yup.string().max(2000).nullable(),
     });
 
     const [task, setTask] = useState();

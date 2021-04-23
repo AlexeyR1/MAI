@@ -66,7 +66,7 @@ function AddTaskForm() {
         priority: yup.object({
             id: yup.number().required()
         }),
-        problemDescription: yup.string().max(2000)
+        problemDescription: yup.string().max(2000).nullable()
     });
 
     const [statuses, setStatuses] = useState([{
