@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Form, Formik, useField } from "formik";
-import { MyTextField } from "../TextField";
+import { Formik, useField } from "formik";
 import { Select, MenuItem } from "@material-ui/core";
 import { getAll } from "../../api/position";
 import { add } from "../../api/employee";
-import * as yup from "yup";
+import { validationSchema, DefaultEmployeeForm } from "./DefaultEmployeeForm";
 
 function DropDownMenu({ ...props }) {
     const [field, meta] = useField(props.propName);
@@ -29,8 +28,6 @@ function DropDownMenu({ ...props }) {
 }
 
 function AddEmployeeForm() {
-    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-
     const initialValues = {
         firstName: "",
         lastName: "",
@@ -41,18 +38,6 @@ function AddEmployeeForm() {
     }
 
     const [positions, setPositions] = useState([]);
-
-    const validationSchema = yup.object({
-        firstName: yup.string().required().max(50),
-        lastName: yup.string().required().max(50),
-        position: yup.object({
-            id: yup.number().required().notOneOf([0])
-        }),
-        email: yup.string()
-            .required()
-            .max(50)
-            .matches(emailRegex, "invalid email format")
-    })
 
     return (
         <div className="custom-container">
@@ -71,25 +56,8 @@ function AddEmployeeForm() {
                     errors,
                     isSubmitting
                 }) => (
-
-                    <Form>
-                        <div id="firstName">
-                            <div className="label">Имя</div>
-                            <MyTextField
-                                name="firstName"
-                                type="input"
-                                placeholder="Имя"
-                            />
-                        </div>
-                        <div id="lastName">
-                            <div className="label">Фамилия</div>
-                            <MyTextField
-                                name="lastName"
-                                type="input"
-                                placeholder="Фамилия"
-                            />
-                        </div>
-                        <div id="position">
+                    <DefaultEmployeeForm
+                        Position={
                             <DropDownMenu
                                 data={positions}
                                 setData={setPositions}
@@ -97,29 +65,24 @@ function AddEmployeeForm() {
                                 propName="position.id"
                                 labelName="Должность"
                             />
-                        </div>
-                        <div>
-                            <div className="label">Отдел</div>
-                            <Select value={values.position.id} disabled>
-                                {positions.map(item =>
-                                    <MenuItem key={item.id} value={item.id}>{item.department.name}</MenuItem>
-                                )}
-                            </Select>
-                        </div>
-                        <div id="email">
-                            <div className="label">Электронный адрес</div>
-                            <MyTextField
-                                name="email"
-                                type="input"
-                                placeholder="Email"
-                            />
-                        </div>
+                        }
+                        Department={
+                            <React.Fragment>
+                                <div className="label">Отдел</div>
+                                <Select value={values.position.id} disabled>
+                                    {positions.map(item =>
+                                        <MenuItem key={item.id} value={item.id}>{item.department.name}</MenuItem>
+                                    )}
+                                </Select>
+                            </React.Fragment>
+                        }
+                    >
                         <div>
                             <button type="submit" style={{ marginTop: '3%' }} disabled={isSubmitting}>Добавить</button>
                         </div>
-                        <pre>{JSON.stringify(values, null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                         {/* <pre>{JSON.stringify(errors, null, 2)}</pre> */}
-                    </Form>
+                    </DefaultEmployeeForm>
                 )}
             </Formik>
         </div>

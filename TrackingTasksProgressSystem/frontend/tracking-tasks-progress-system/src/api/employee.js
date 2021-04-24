@@ -7,7 +7,7 @@ const instance = axios.create({
 
 export const getAll = () => instance.get("").then(result => result.data);
 
-export const getById = (id) => instance.get(`${id}`).then(result => result.data);
+export const getById = (id) => instance.get(`${id}`).then(result => result.data).catch(error => !!error.resonse);
 
 export const add = (item) => instance.post("", item).then(result => result.data);
 

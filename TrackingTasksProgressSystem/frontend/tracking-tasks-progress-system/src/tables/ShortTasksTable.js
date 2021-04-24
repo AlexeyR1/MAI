@@ -56,7 +56,11 @@ function ShortTasksTable() {
                             <tr key={shortTask.id}>
                                 <td>{shortTask.id}</td>
                                 <td><a href={`task/${shortTask.id}`}>{shortTask.summary}</a></td>
-                                <td>{`${shortTask.performingBy.firstName} ${shortTask.performingBy.lastName}`}</td>
+                                <td>
+                                    <a href={`employee/${shortTask.performingBy.id}`}>
+                                        {`${shortTask.performingBy.firstName} ${shortTask.performingBy.lastName}`}
+                                    </a>
+                                </td>
                                 <td>{shortTask.status.name}</td>
                                 <td>
                                     <button onClick={async () => {
